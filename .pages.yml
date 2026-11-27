@@ -1,0 +1,45 @@
+media:
+  name: images
+  input: public/images/posts
+  output: /images/posts
+  extensions: [png, jpg, jpeg, webp, gif]
+
+content:
+  - name: posts
+    label: Blog Posts
+    type: collection
+    path: src/posts
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{fields.slug}.md"
+    view:
+      fields: [title, date, category]
+      primary: title
+      sort: [date]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Post Title
+        type: string
+        required: true
+      - name: slug
+        label: URL Slug
+        type: string
+        required: true
+      - name: date
+        label: Publish Date
+        type: date
+        required: true
+      - name: category
+        label: Category
+        type: string
+      - name: coverImage
+        label: Cover Image
+        type: image
+      - name: summary
+        label: Short Summary
+        type: text
+      - name: body
+        label: Content
+        type: rich-text
