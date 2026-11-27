@@ -23,6 +23,10 @@
   }
 }
 
+<div className="min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0A0F1D] text-white">
+  {/* Content */}
+</div>
+
 /* Editorial Markdown Prose Styling */
 .editorial-prose {
   font-size: 1.0625rem;
