@@ -1,5 +1,19 @@
 import { load as parseYaml } from 'js-yaml';
 
+export const MEDICAL_DISCLAIMER =
+  'Medical Disclaimer: The content published on Radiology Unfiltered is provided strictly for informational and educational purposes only and represents an aggregation and commentary on news from various radiology headlines and industry sources. The author assumes no personal or professional responsibility or liability for any medical, diagnostic, or clinical applications resulting from the use or interpretation of information on this site. Nothing on this blog constitutes medical advice, clinical guidance, or a substitute for professional medical judgment, institutional protocols, or official manufacturer and regulatory documentation.';
+
+export const RADIOLOGY_CATEGORIES: string[] = [
+  'All',
+  'CT & Spectral Imaging',
+  'MRI',
+  "Mammography & Women's Imaging",
+  'X-Ray & Fluoroscopy',
+  'Ultrasound',
+  'Nuclear Medicine & IR',
+  'Radiology AI',
+];
+
 export interface PostFrontmatter {
   title: string;
   slug: string;
@@ -128,10 +142,10 @@ function loadAllPosts(): BlogPost[] {
       const stats = computeReadingStats(content);
 
       return {
-        title: data.title ?? 'Untitled Essay',
+        title: data.title ?? 'Untitled Article',
         slug: data.slug ?? fallbackSlug,
         date,
-        category: data.category ?? 'Essays',
+        category: data.category ?? 'Radiology AI',
         coverImage: data.coverImage ?? '',
         summary: data.summary ?? '',
         content,
@@ -154,6 +168,8 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 }
 
 export function getAllCategories(): string[] {
-  const unique = new Set(ALL_POSTS.map((post) => post.category));
-  return ['All', ...Array.from(unique)];
+  const extras = ALL_POSTS.map((post) => post.category).filter(
+    (cat) => cat && !RADIOLOGY_CATEGORIES.includes(cat),
+  );
+  return [...RADIOLOGY_CATEGORIES, ...Array.from(new Set(extras))];
 }

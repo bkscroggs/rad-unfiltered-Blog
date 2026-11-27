@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Link2 } from 'lucide-react';
-import type { BlogPost } from '../lib/posts';
+import { MEDICAL_DISCLAIMER, type BlogPost } from '../lib/posts';
 import { EditorialImage } from './EditorialImage';
 import { MarkdownRenderer } from './MarkdownRenderer';
 
@@ -69,7 +69,7 @@ export function ArticleView({
           className="inline-flex items-center gap-2 min-h-[40px] px-3 py-1.5 -ml-3 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-[#0A0A0A] dark:hover:text-[#F4F4F5] rounded-md transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] dark:focus-visible:ring-[#60A5FA]"
         >
           <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>Back to All Essays</span>
+          <span>Back to All Articles</span>
         </button>
       </div>
 
@@ -116,17 +116,22 @@ export function ArticleView({
               content={post.content}
               onNavigateSlug={onOpenPost}
             />
+            {!post.content.includes('Medical Disclaimer:') && (
+              <div className="mt-10 pt-6 border-t border-zinc-200 dark:border-zinc-800 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+                <p>{MEDICAL_DISCLAIMER}</p>
+              </div>
+            )}
           </div>
         </div>
 
         <aside
-          aria-label="Essay notes and section index"
+          aria-label="Article notes and section index"
           className="lg:col-span-4 lg:sticky lg:top-24 space-y-8 border-t lg:border-t-0 lg:border-l border-zinc-200 dark:border-zinc-800 pt-8 lg:pt-0 lg:pl-8"
         >
           {post.headings.length > 0 && (
             <div>
               <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 dark:text-zinc-400 mb-3.5">
-                In This Essay
+                In This Article
               </h2>
               <nav aria-label="Table of contents">
                 <ul className="space-y-2 text-sm">
@@ -190,7 +195,7 @@ export function ArticleView({
               ) : (
                 <>
                   <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>Copy Essay Link</span>
+                  <span>Copy Article Link</span>
                 </>
               )}
             </button>
@@ -251,7 +256,7 @@ export function ArticleView({
                     }}
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-[#1E3A8A] dark:text-[#60A5FA] hover:underline underline-offset-4 whitespace-nowrap"
                   >
-                    <span>Read Essay</span>
+                    <span>Read Article</span>
                     <ArrowRight
                       className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5"
                       aria-hidden="true"

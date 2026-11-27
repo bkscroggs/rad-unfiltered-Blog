@@ -68,9 +68,9 @@ export default function App() {
 
   useEffect(() => {
     if (route.view === 'post' && activePost) {
-      document.title = `${activePost.title} — Monograph`;
+      document.title = `${activePost.title} — Radiology Unfiltered`;
     } else {
-      document.title = 'Monograph — Editorial Journal';
+      document.title = 'Radiology Unfiltered';
       setReadingProgress(null);
     }
   }, [route, activePost]);
@@ -144,18 +144,17 @@ export default function App() {
               Archive Notice
             </p>
             <h1 className="mt-3 font-serif text-3xl sm:text-4xl font-semibold text-[#0A0A0A] dark:text-[#F4F4F5]">
-              Essay Not Found
+              Article Not Found
             </h1>
             <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400 max-w-md mx-auto leading-relaxed">
-              The requested article could not be located in the current static
-              edition.
+              The requested article could not be located in the current archive.
             </p>
             <button
               type="button"
               onClick={() => navigateHome('All')}
               className="mt-6 inline-flex items-center justify-center min-h-[40px] px-5 py-2 text-xs font-medium rounded-md bg-[#0A0A0A] text-white dark:bg-[#F4F4F5] dark:text-[#0A0A0A] hover:opacity-90 transition-opacity cursor-pointer"
             >
-              Return to All Essays
+              Return to All Articles
             </button>
           </main>
         )}

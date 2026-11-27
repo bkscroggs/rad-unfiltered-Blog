@@ -9,10 +9,11 @@ interface HeaderProps {
 }
 
 const NAV_ITEMS = [
-  { label: 'All Essays', category: 'All' },
-  { label: 'Architecture', category: 'Architecture' },
-  { label: 'Design', category: 'Design' },
-  { label: 'Technology', category: 'Technology' },
+  { label: 'All Coverage', category: 'All' },
+  { label: 'CT & Spectral', category: 'CT & Spectral Imaging' },
+  { label: 'MRI', category: 'MRI' },
+  { label: 'Mammography', category: "Mammography & Women's Imaging" },
+  { label: 'Radiology AI', category: 'Radiology AI' },
 ];
 
 export function Header({
@@ -34,7 +35,7 @@ export function Header({
           }}
           className="font-serif text-xl sm:text-2xl font-semibold tracking-tight text-[#0A0A0A] dark:text-[#F4F4F5] whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] dark:focus-visible:ring-[#60A5FA] rounded-sm"
         >
-          Monograph
+          Radiology Unfiltered
         </a>
 
         {/* Zone 2: Concise single-line navigation links */}

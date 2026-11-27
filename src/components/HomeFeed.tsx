@@ -47,16 +47,22 @@ export function HomeFeed({
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400 mb-3">
-              Independent Journal of Space, Type &amp; Craft
+              Independent Radiology News &amp; Educational Commentary
             </p>
             <h1 className="font-serif text-3xl sm:text-4xl lg:text-[2.75rem] font-semibold tracking-tight leading-[1.12] text-[#0A0A0A] dark:text-[#F4F4F5]">
-              Essays on deliberate design and enduring digital tools
+              Radiology Unfiltered
             </h1>
+            <p className="mt-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              Candid coverage of radiology news, clinical imaging advancements,
+              and modality innovations across CT, MRI, X-ray, Mammography,
+              Ultrasound, Nuclear Medicine, Interventional Radiology, and
+              Radiology AI.
+            </p>
           </div>
 
           <div className="w-full lg:w-80 shrink-0">
             <label htmlFor="editorial-search" className="sr-only">
-              Search essays
+              Search articles
             </label>
             <div className="relative flex items-center">
               <Search
@@ -68,7 +74,7 @@ export function HomeFeed({
                 type="search"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                placeholder="Search essays, topics, code..."
+                placeholder="Search modalities, studies, headlines..."
                 className="w-full min-h-[42px] pl-10 pr-9 py-2 text-sm bg-white dark:bg-[#14161A] text-[#0A0A0A] dark:text-[#F4F4F5] placeholder:text-zinc-400 dark:placeholder:text-zinc-500 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:border-[#1E3A8A] dark:focus:border-[#60A5FA] transition-colors"
               />
               {searchQuery && (
@@ -89,7 +95,7 @@ export function HomeFeed({
         <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
           <div
             role="group"
-            aria-label="Filter essays by category"
+            aria-label="Filter articles by modality category"
             className="flex flex-wrap items-center gap-1.5 p-1 bg-zinc-100 dark:bg-[#14161A] border border-zinc-200/80 dark:border-zinc-800 rounded-lg"
           >
             {categories.map((category) => {
@@ -114,7 +120,7 @@ export function HomeFeed({
 
           <p className="text-xs text-zinc-500 dark:text-zinc-400 tabular-nums">
             {filteredPosts.length}{' '}
-            {filteredPosts.length === 1 ? 'essay' : 'essays'}
+            {filteredPosts.length === 1 ? 'article' : 'articles'}
             {activeCategory !== 'All' ? ` in ${activeCategory}` : ''}
           </p>
         </div>
@@ -124,7 +130,7 @@ export function HomeFeed({
       {!featuredPost && (
         <section className="py-20 text-center max-w-md mx-auto">
           <h2 className="font-serif text-2xl font-semibold text-[#0A0A0A] dark:text-[#F4F4F5]">
-            No matching essays found
+            No matching articles found
           </h2>
           <p className="mt-2.5 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
             No articles matched{' '}
@@ -133,9 +139,9 @@ export function HomeFeed({
                 &ldquo;{searchQuery}&rdquo;
               </span>
             ) : (
-              'the selected filter'
+              <span>{activeCategory}</span>
             )}
-            . Clear the filters to browse the full archive.
+            . Clear the filters to browse all available coverage.
           </p>
           <button
             type="button"
@@ -215,7 +221,7 @@ export function HomeFeed({
                   }}
                   className="inline-flex items-center gap-2 min-h-[40px] px-4 py-2 text-xs font-medium rounded-md bg-[#0A0A0A] text-white dark:bg-[#F4F4F5] dark:text-[#0A0A0A] hover:bg-[#1E3A8A] dark:hover:bg-[#93C5FD] transition-colors duration-150 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] dark:focus-visible:ring-[#60A5FA]"
                 >
-                  <span>Read Essay</span>
+                  <span>Read Article</span>
                   <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                 </a>
               </div>
@@ -229,7 +235,7 @@ export function HomeFeed({
         <section className="pt-12">
           <div className="flex items-baseline justify-between mb-8">
             <h2 className="font-serif text-xl sm:text-2xl font-semibold tracking-tight text-[#0A0A0A] dark:text-[#F4F4F5]">
-              Recent Dispatches
+              Recent Coverage
             </h2>
           </div>
 
@@ -289,7 +295,7 @@ export function HomeFeed({
                     }}
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-[#1E3A8A] dark:text-[#60A5FA] hover:underline underline-offset-4 whitespace-nowrap"
                   >
-                    <span>Read Essay</span>
+                    <span>Read Article</span>
                     <ArrowRight
                       className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5"
                       aria-hidden="true"
