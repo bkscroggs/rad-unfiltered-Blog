@@ -57,9 +57,10 @@ function parseFrontmatter(raw: string): {
   data: Partial<PostFrontmatter>;
   content: string;
 } {
-  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  const normalized = raw.replace(/^\uFEFF/, '').trimStart();
+  const match = normalized.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!match) {
-    return { data: {}, content: raw };
+    return { data: {}, content: normalized.trim() };
   }
 
   const [, yamlBlock, body] = match;
