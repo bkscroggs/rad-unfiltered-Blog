@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
-
+<div className="min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0A0F1D] text-white">
+  {/* Content */}
+</div>
 @theme {
   --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -22,10 +24,6 @@
     text-wrap: balance;
   }
 }
-
-<div className="min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0A0F1D] text-white">
-  {/* Content */}
-</div>
 
 /* Editorial Markdown Prose Styling */
 .editorial-prose {
