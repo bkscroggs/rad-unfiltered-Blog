@@ -1,8 +1,9 @@
 media:
-  name: images
-  input: public/images/posts
-  output: /images/posts
-  extensions: [png, jpg, jpeg, webp, gif]
+  - name: images
+    label: Images
+    input: public/images
+    output: /rad-unfiltered-Blog/images
+    categories: [image]
 
 content:
   - name: posts
