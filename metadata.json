@@ -1,0 +1,6 @@
+{
+  "name": "Monograph — Editorial Journal",
+  "description": "A markdown-driven editorial journal exploring architecture, typography, and tactile computing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

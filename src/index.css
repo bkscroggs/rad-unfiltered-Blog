@@ -1,0 +1,359 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .dark body {
+    letter-spacing: 0.008em;
+  }
+
+  h1, h2, h3, .font-editorial {
+    text-wrap: balance;
+  }
+}
+
+/* Editorial Markdown Prose Styling */
+.editorial-prose {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: #18181b;
+}
+
+.dark .editorial-prose {
+  color: #e4e4e7;
+}
+
+.editorial-prose > p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-size: 3.35rem;
+  font-weight: 600;
+  line-height: 0.85;
+  float: left;
+  margin-right: 0.75rem;
+  margin-top: 0.35rem;
+  color: #0a0a0a;
+}
+
+.dark .editorial-prose > p:first-of-type::first-letter {
+  color: #fafafa;
+}
+
+.editorial-prose p {
+  margin-bottom: 1.5rem;
+}
+
+.editorial-prose h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin-top: 2.75rem;
+  margin-bottom: 1rem;
+  color: #0a0a0a;
+}
+
+.dark .editorial-prose h2 {
+  color: #fafafa;
+}
+
+.editorial-prose h3 {
+  font-family: var(--font-serif);
+  font-size: 1.3125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #18181b;
+}
+
+.dark .editorial-prose h3 {
+  color: #f4f4f5;
+}
+
+.editorial-prose a {
+  color: #1e3a8a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 150ms ease;
+}
+
+.editorial-prose a:hover {
+  color: #1d4ed8;
+}
+
+.dark .editorial-prose a {
+  color: #93c5fd;
+}
+
+.dark .editorial-prose a:hover {
+  color: #bfdbfe;
+}
+
+/* Pull-quote style blockquotes: top & bottom hairline rules, no thick left bar */
+.editorial-prose blockquote {
+  margin: 2.25rem 0;
+  padding: 1.5rem 0;
+  border-top: 1px solid #e4e4e7;
+  border-bottom: 1px solid #e4e4e7;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  line-height: 1.55;
+  color: #18181b;
+}
+
+.dark .editorial-prose blockquote {
+  border-color: #27272a;
+  color: #f4f4f5;
+}
+
+.editorial-prose blockquote p {
+  margin-bottom: 0.5rem;
+}
+
+.editorial-prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.editorial-prose blockquote cite,
+.editorial-prose blockquote footer {
+  display: block;
+  margin-top: 0.75rem;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+
+.dark .editorial-prose blockquote cite,
+.dark .editorial-prose blockquote footer {
+  color: #a1a1aa;
+}
+
+/* Editorial Callout Boxes (supported via rehype-raw HTML in Markdown) */
+.editorial-prose .callout {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e4e4e7;
+  background-color: #f4f4f5;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: #27272a;
+}
+
+.dark .editorial-prose .callout {
+  border-color: #27272a;
+  background-color: #14161a;
+  color: #d4d4d8;
+}
+
+.editorial-prose .callout-title {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+}
+
+.dark .editorial-prose .callout-title {
+  color: #60a5fa;
+}
+
+.editorial-prose .callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* Lists */
+.editorial-prose ul,
+.editorial-prose ol {
+  margin: 1.25rem 0 1.5rem 1.35rem;
+}
+
+.editorial-prose ul {
+  list-style-type: disc;
+}
+
+.editorial-prose ol {
+  list-style-type: decimal;
+}
+
+.editorial-prose li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+/* Tables with tabular numerals */
+.editorial-prose .table-wrap {
+  margin: 2rem 0;
+  overflow-x: auto;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.5rem;
+}
+
+.dark .editorial-prose .table-wrap {
+  border-color: #27272a;
+}
+
+.editorial-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.editorial-prose thead {
+  background-color: #f4f4f5;
+  border-bottom: 1px solid #e4e4e7;
+}
+
+.dark .editorial-prose thead {
+  background-color: #14161a;
+  border-color: #27272a;
+}
+
+.editorial-prose th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #52525b;
+}
+
+.dark .editorial-prose th {
+  color: #a1a1aa;
+}
+
+.editorial-prose td {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #f4f4f5;
+  color: #18181b;
+}
+
+.dark .editorial-prose td {
+  border-color: #1f2228;
+  color: #e4e4e7;
+}
+
+/* Code blocks & inline code */
+.editorial-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  background-color: #f4f4f5;
+  color: #18181b;
+}
+
+.dark .editorial-prose code {
+  background-color: #1c1f24;
+  color: #f4f4f5;
+}
+
+.editorial-prose pre {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e4e4e7;
+  background-color: #f4f4f5;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: #18181b;
+}
+
+.dark .editorial-prose pre {
+  border-color: #27272a;
+  background-color: #121418;
+  color: #e4e4e7;
+}
+
+.editorial-prose pre code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Figures, Images & Captions */
+.editorial-prose figure {
+  margin: 2.25rem 0;
+}
+
+.editorial-prose figcaption {
+  margin-top: 0.65rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #52525b;
+}
+
+.dark .editorial-prose figcaption {
+  color: #a1a1aa;
+}
+
+/* Responsive Media / YouTube / Audio Containers */
+.editorial-prose .video-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 2.25rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid #e4e4e7;
+  background-color: #0a0a0a;
+}
+
+.dark .editorial-prose .video-embed {
+  border-color: #27272a;
+}
+
+.editorial-prose .video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.editorial-prose hr {
+  margin: 2.75rem 0;
+  border: 0;
+  border-top: 1px solid #e4e4e7;
+}
+
+.dark .editorial-prose hr {
+  border-color: #27272a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
