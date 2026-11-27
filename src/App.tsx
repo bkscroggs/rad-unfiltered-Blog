@@ -106,7 +106,7 @@ export default function App() {
     : [];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-[#0A0A0A] dark:bg-[#0B0C0E] dark:text-[#F4F4F5] transition-colors duration-200">
+    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-[#0A0A0A] dark:bg-[#01060f] dark:bg-[linear-gradient(to_bottom,#081221,#01060f)] dark:bg-fixed dark:text-[#F4F4F5] transition-colors duration-200">
       <Header
         theme={theme}
         onToggleTheme={toggleTheme}

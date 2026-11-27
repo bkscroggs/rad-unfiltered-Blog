@@ -10,7 +10,7 @@ export function Footer({ onNavigateHome }: FooterProps) {
   };
 
   return (
-    <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-[#FAFAFA] dark:bg-[#0B0C0E] transition-colors duration-200">
+    <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-[#FAFAFA] dark:bg-transparent transition-colors duration-200">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 text-xs text-zinc-500 dark:text-zinc-400">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-1.5 max-w-xl">

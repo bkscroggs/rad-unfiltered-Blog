@@ -24,7 +24,7 @@ export function Header({
   readingProgress = null,
 }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-40 bg-[#FAFAFA]/95 dark:bg-[#0B0C0E]/95 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-colors duration-200">
+    <header className="sticky top-0 z-40 bg-[#FAFAFA]/95 dark:bg-[#081221]/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-colors duration-200">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-8">
         {/* Zone 1: Single text element wordmark */}
         <a
