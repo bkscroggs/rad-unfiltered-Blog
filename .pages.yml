@@ -43,4 +43,6 @@ content:
         type: text
       - name: body
         label: Content
-        type: rich-text
+        type: code
+        options:
+          language: markdown
