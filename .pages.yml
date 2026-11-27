@@ -1,8 +1,8 @@
 media:
   - name: images
     label: Images
-    input: public/images
-    output: /rad-unfiltered-Blog/images
+    input: public/images/posts
+    output: /images/posts
     categories: [image]
 
 content:
