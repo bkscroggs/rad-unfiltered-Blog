@@ -1,4 +1,5 @@
 import { Menu, Moon, Sun } from 'lucide-react';
+import { resolveAssetPath } from '../utils/assets';
 
 interface HeaderProps {
   theme: 'light' | 'dark';
@@ -28,15 +29,20 @@ export function Header({
   return (
     <header className="sticky top-0 z-40 border-b border-light-outline/80 dark:border-dark-outline/80 bg-light-surface/90 dark:bg-dark-surface/85 backdrop-blur-xl">
       <div className="max-w-container-max mx-auto px-gutter-md sm:px-gutter-lg lg:px-gutter-xl h-14 sm:h-16 flex items-center justify-between gap-gutter-md">
-        {/* Zone 1: Single-line Serif Wordmark */}
+        {/* Zone 1: Site Logo + Wordmark */}
         <a
           href="#/"
           onClick={(e) => {
             e.preventDefault();
             onNavigateHome('All');
           }}
-          className="font-display text-headline-sm text-light-on-surface dark:text-dark-on-surface whitespace-nowrap tracking-tight hover:text-light-primary dark:hover:text-dark-primary transition-colors duration-state-change"
+          className="group flex items-center gap-2.5 sm:gap-3 font-display text-headline-sm text-light-on-surface dark:text-dark-on-surface whitespace-nowrap tracking-tight hover:text-light-primary dark:hover:text-dark-primary transition-colors duration-state-change"
         >
+          <img
+            src={resolveAssetPath('images/logo.png')}
+            alt="Radiology Unfiltered Logo"
+            className="h-8 w-auto sm:h-9 object-contain drop-shadow-sm transition-transform duration-state-change group-hover:scale-105"
+          />
           <span>Radiology Unfiltered</span>
         </a>
 

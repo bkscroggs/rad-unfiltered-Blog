@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Bookmark, Moon, Search, Sun, X } from 'lucide-react';
+import { resolveAssetPath } from '../utils/assets';
 
 interface MobileNavDrawerProps {
   isOpen: boolean;
@@ -54,9 +55,16 @@ export function MobileNavDrawer({
 
       <aside className="relative z-10 w-full max-w-xs h-full flex flex-col bg-white/95 dark:bg-[#0B172A]/95 backdrop-blur-xl border-l border-zinc-200 dark:border-slate-800 shadow-2xl">
         <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-slate-800">
-          <span className="font-serif text-lg font-semibold text-[#0A0A0A] dark:text-[#F4F4F5]">
-            Radiology Unfiltered
-          </span>
+          <div className="flex items-center gap-2.5">
+            <img
+              src={resolveAssetPath('images/logo.png')}
+              alt="Radiology Unfiltered Logo"
+              className="h-7 w-auto object-contain"
+            />
+            <span className="font-serif text-lg font-semibold text-[#0A0A0A] dark:text-[#F4F4F5]">
+              Radiology Unfiltered
+            </span>
+          </div>
           <button
             type="button"
             onClick={onClose}

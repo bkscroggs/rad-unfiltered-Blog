@@ -1,4 +1,5 @@
 import { MEDICAL_DISCLAIMER } from '../lib/posts';
+import { resolveAssetPath } from '../utils/assets';
 
 interface FooterProps {
   onNavigateHome: (category?: string) => void;
@@ -75,9 +76,16 @@ export function Footer({ onNavigateHome }: FooterProps) {
           </div>
 
           <div className="flex flex-wrap items-center gap-gutter-md">
-            <span className="font-mono text-mono-sm">
-              Radiology Unfiltered · Bryan Scroggs, RT(R)(CT)
-            </span>
+            <div className="flex items-center gap-2">
+              <img
+                src={resolveAssetPath('images/logo.png')}
+                alt="Radiology Unfiltered Logo"
+                className="h-5 w-auto object-contain opacity-80"
+              />
+              <span className="font-mono text-mono-sm">
+                Radiology Unfiltered · Bryan Scroggs, RT(R)(CT)
+              </span>
+            </div>
             <span className="font-label text-label-md uppercase hidden lg:inline">
               Primary Authorities: RSNA · ACR · FDA · Radiopaedia · NICE
             </span>
