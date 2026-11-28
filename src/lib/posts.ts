@@ -12,7 +12,60 @@ export const RADIOLOGY_CATEGORIES: string[] = [
   'Ultrasound',
   'Nuclear Medicine & IR',
   'Radiology AI',
+  'Editorial & Announcements',
 ];
+
+const CATEGORY_ALIASES: Record<string, string> = {
+  all: 'Editorial & Announcements',
+  'all coverage': 'Editorial & Announcements',
+  editorial: 'Editorial & Announcements',
+  announcements: 'Editorial & Announcements',
+  'editorial & announcements': 'Editorial & Announcements',
+  ct: 'CT & Spectral Imaging',
+  'ct scan': 'CT & Spectral Imaging',
+  'ct scans': 'CT & Spectral Imaging',
+  'ct & spectral': 'CT & Spectral Imaging',
+  'ct & spectral imaging': 'CT & Spectral Imaging',
+  'spectral ct': 'CT & Spectral Imaging',
+  'photon-counting ct': 'CT & Spectral Imaging',
+  mri: 'MRI',
+  mr: 'MRI',
+  'magnetic resonance': 'MRI',
+  mammography: "Mammography & Women's Imaging",
+  'breast imaging': "Mammography & Women's Imaging",
+  "women's imaging": "Mammography & Women's Imaging",
+  "mammography & women's imaging": "Mammography & Women's Imaging",
+  'x-ray': 'X-Ray & Fluoroscopy',
+  xray: 'X-Ray & Fluoroscopy',
+  radiography: 'X-Ray & Fluoroscopy',
+  fluoroscopy: 'X-Ray & Fluoroscopy',
+  'x-ray & fluoroscopy': 'X-Ray & Fluoroscopy',
+  ultrasound: 'Ultrasound',
+  us: 'Ultrasound',
+  pocus: 'Ultrasound',
+  sonography: 'Ultrasound',
+  'nuclear medicine': 'Nuclear Medicine & IR',
+  ir: 'Nuclear Medicine & IR',
+  'interventional radiology': 'Nuclear Medicine & IR',
+  'nuclear medicine & ir': 'Nuclear Medicine & IR',
+  ai: 'Radiology AI',
+  'radiology ai': 'Radiology AI',
+  'artificial intelligence': 'Radiology AI',
+};
+
+export function normalizeCategory(rawCategory?: string): string {
+  if (!rawCategory || !rawCategory.trim()) {
+    return 'Editorial & Announcements';
+  }
+  const key = rawCategory.trim().toLowerCase();
+  if (CATEGORY_ALIASES[key]) {
+    return CATEGORY_ALIASES[key];
+  }
+  const exactMatch = RADIOLOGY_CATEGORIES.find(
+    (cat) => cat.toLowerCase() === key,
+  );
+  return exactMatch ?? rawCategory.trim();
+}
 
 export interface PostFrontmatter {
   title: string;
@@ -30,7 +83,9 @@ export interface PostHeading {
 }
 
 export interface BlogPost extends PostFrontmatter {
+  rawCategory: string;
   content: string;
+  plainText: string;
   readingTimeMinutes: number;
   readingTimeLabel: string;
   wordCount: number;
@@ -76,18 +131,20 @@ function parseFrontmatter(raw: string): {
   };
 }
 
-function computeReadingStats(markdown: string): {
-  wordCount: number;
-  readingTimeMinutes: number;
-  readingTimeLabel: string;
-} {
-  const plainText = markdown
+function extractPlainText(markdown: string): string {
+  return markdown
     .replace(/```[\s\S]*?```/g, ' ')
     .replace(/<[^>]+>/g, ' ')
     .replace(/[#>*_`[\]()!-]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+}
 
+function computeReadingStats(plainText: string): {
+  wordCount: number;
+  readingTimeMinutes: number;
+  readingTimeLabel: string;
+} {
   const words = plainText ? plainText.split(' ').length : 0;
   const minutes = Math.max(1, Math.ceil(words / 215));
 
@@ -140,16 +197,20 @@ function loadAllPosts(): BlogPost[] {
         filePath.split('/').pop()?.replace(/\.md$/i, '') ?? 'untitled';
 
       const date = data.date ? String(data.date) : '2026-01-01';
-      const stats = computeReadingStats(content);
+      const plainText = extractPlainText(content);
+      const stats = computeReadingStats(plainText);
+      const rawCategory = data.category ?? 'Editorial & Announcements';
 
       return {
         title: data.title ?? 'Untitled Article',
         slug: data.slug ?? fallbackSlug,
         date,
-        category: data.category ?? 'Radiology AI',
+        rawCategory,
+        category: normalizeCategory(rawCategory),
         coverImage: data.coverImage ?? '',
         summary: data.summary ?? '',
         content,
+        plainText,
         ...stats,
         formattedDate: formatEditorialDate(date),
         headings: extractHeadings(content),
@@ -173,4 +234,17 @@ export function getAllCategories(): string[] {
     (cat) => cat && !RADIOLOGY_CATEGORIES.includes(cat),
   );
   return [...RADIOLOGY_CATEGORIES, ...Array.from(new Set(extras))];
+}
+
+export function getCategoryCounts(): Record<string, number> {
+  const counts: Record<string, number> = { All: ALL_POSTS.length };
+  for (const cat of getAllCategories()) {
+    if (cat !== 'All') {
+      counts[cat] = 0;
+    }
+  }
+  for (const post of ALL_POSTS) {
+    counts[post.category] = (counts[post.category] ?? 0) + 1;
+  }
+  return counts;
 }

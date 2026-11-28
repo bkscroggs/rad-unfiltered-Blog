@@ -5,10 +5,29 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { ArticleView } from './components/ArticleView';
+import { CommandSearchModal } from './components/CommandSearchModal';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { HomeFeed } from './components/HomeFeed';
-import { ALL_POSTS, getAllCategories, getPostBySlug } from './lib/posts';
+import { LightboxModal, type LightboxImageData } from './components/LightboxModal';
+import { MobileNavDrawer } from './components/MobileNavDrawer';
+import { ReadingListDrawer } from './components/ReadingListDrawer';
+import {
+  ALL_POSTS,
+  getAllCategories,
+  getCategoryCounts,
+  getPostBySlug,
+} from './lib/posts';
+import {
+  loadBookmarks,
+  loadReaderPrefs,
+  loadReadHistory,
+  saveBookmarks,
+  saveReaderPrefs,
+  saveReadHistory,
+  type ReaderPreferences,
+  type SortOption,
+} from './lib/preferences';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -35,9 +54,23 @@ export default function App() {
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortBy, setSortBy] = useState<SortOption>('date-desc');
   const [readingProgress, setReadingProgress] = useState<number | null>(null);
 
+  const [bookmarkedSlugs, setBookmarkedSlugs] = useState<string[]>(loadBookmarks);
+  const [readSlugs, setReadSlugs] = useState<string[]>(loadReadHistory);
+  const [readerPrefs, setReaderPrefs] =
+    useState<ReaderPreferences>(loadReaderPrefs);
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isReadingListOpen, setIsReadingListOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<LightboxImageData | null>(
+    null,
+  );
+
   const categories = getAllCategories();
+  const categoryCounts = getCategoryCounts();
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -47,6 +80,18 @@ export default function App() {
 
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Global Cmd+K / Ctrl+K shortcut for instant search
+  useEffect(() => {
+    const handleGlobalKeys = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeys);
+    return () => window.removeEventListener('keydown', handleGlobalKeys);
   }, []);
 
   useEffect(() => {
@@ -69,6 +114,12 @@ export default function App() {
   useEffect(() => {
     if (route.view === 'post' && activePost) {
       document.title = `${activePost.title} — Radiology Unfiltered`;
+      setReadSlugs((prev) => {
+        if (prev.includes(activePost.slug)) return prev;
+        const next = [...prev, activePost.slug];
+        saveReadHistory(next);
+        return next;
+      });
     } else {
       document.title = 'Radiology Unfiltered';
       setReadingProgress(null);
@@ -87,19 +138,54 @@ export default function App() {
     }
   }, []);
 
-  const navigateToPost = useCallback((slug: string) => {
+  const navigateToPost = useCallback((slug: string, headingId?: string) => {
     const targetHash = `#/post/${encodeURIComponent(slug)}`;
     if (window.location.hash !== targetHash) {
       window.location.hash = targetHash;
     } else {
       setRoute({ view: 'post', slug });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (!headingId) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    if (headingId) {
+      window.setTimeout(() => {
+        document.getElementById(headingId)?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }, 120);
     }
   }, []);
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   }, []);
+
+  const toggleBookmark = useCallback((slug: string) => {
+    setBookmarkedSlugs((prev) => {
+      const next = prev.includes(slug)
+        ? prev.filter((item) => item !== slug)
+        : [slug, ...prev];
+      saveBookmarks(next);
+      return next;
+    });
+  }, []);
+
+  const clearAllBookmarks = useCallback(() => {
+    setBookmarkedSlugs([]);
+    saveBookmarks([]);
+  }, []);
+
+  const updateReaderPrefs = useCallback((nextPrefs: ReaderPreferences) => {
+    setReaderPrefs(nextPrefs);
+    saveReaderPrefs(nextPrefs);
+  }, []);
+
+  const savedPosts = bookmarkedSlugs
+    .map((slug) => getPostBySlug(slug))
+    .filter((post): post is NonNullable<typeof post> => Boolean(post));
 
   const relatedPosts = activePost
     ? ALL_POSTS.filter((p) => p.slug !== activePost.slug).slice(0, 2)
@@ -112,7 +198,10 @@ export default function App() {
         onToggleTheme={toggleTheme}
         activeCategory={route.view === 'home' ? activeCategory : ''}
         onNavigateHome={navigateHome}
-        readingProgress={route.view === 'post' && activePost ? readingProgress : null}
+        onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
+        readingProgress={
+          route.view === 'post' && activePost ? readingProgress : null
+        }
       />
 
       <div className="flex-1">
@@ -120,10 +209,18 @@ export default function App() {
           <HomeFeed
             posts={ALL_POSTS}
             categories={categories}
+            categoryCounts={categoryCounts}
             activeCategory={activeCategory}
             searchQuery={searchQuery}
+            sortBy={sortBy}
+            bookmarkedSlugs={bookmarkedSlugs}
+            readSlugs={readSlugs}
             onSelectCategory={setActiveCategory}
             onSearchChange={setSearchQuery}
+            onSortChange={setSortBy}
+            onToggleBookmark={toggleBookmark}
+            onOpenReadingList={() => setIsReadingListOpen(true)}
+            onOpenCommandSearch={() => setIsSearchOpen(true)}
             onOpenPost={navigateToPost}
           />
         )}
@@ -132,6 +229,12 @@ export default function App() {
           <ArticleView
             post={activePost}
             relatedPosts={relatedPosts}
+            isBookmarked={bookmarkedSlugs.includes(activePost.slug)}
+            readerPrefs={readerPrefs}
+            onUpdateReaderPrefs={updateReaderPrefs}
+            onToggleBookmark={toggleBookmark}
+            onOpenCommandSearch={() => setIsSearchOpen(true)}
+            onZoomImage={setLightboxImage}
             onBackHome={() => navigateHome()}
             onOpenPost={navigateToPost}
             onProgressChange={setReadingProgress}
@@ -140,19 +243,19 @@ export default function App() {
 
         {route.view === 'post' && !activePost && (
           <main className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
-            <p className="text-xs uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs uppercase tracking-[0.14em] text-zinc-500 dark:text-slate-400">
               Archive Notice
             </p>
             <h1 className="mt-3 font-serif text-3xl sm:text-4xl font-semibold text-[#0A0A0A] dark:text-[#F4F4F5]">
               Article Not Found
             </h1>
-            <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400 max-w-md mx-auto leading-relaxed">
+            <p className="mt-3 text-sm text-zinc-600 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
               The requested article could not be located in the current archive.
             </p>
             <button
               type="button"
               onClick={() => navigateHome('All')}
-              className="mt-6 inline-flex items-center justify-center min-h-[40px] px-5 py-2 text-xs font-medium rounded-md bg-[#0A0A0A] text-white dark:bg-[#F4F4F5] dark:text-[#0A0A0A] hover:opacity-90 transition-opacity cursor-pointer"
+              className="mt-6 inline-flex items-center justify-center min-h-[40px] px-5 py-2 text-xs font-medium rounded-lg bg-[#0A0A0A] text-white dark:bg-[#F4F4F5] dark:text-[#0A0A0A] hover:opacity-90 transition-opacity cursor-pointer"
             >
               Return to All Articles
             </button>
@@ -161,6 +264,45 @@ export default function App() {
       </div>
 
       <Footer onNavigateHome={navigateHome} />
+
+      <CommandSearchModal
+        isOpen={isSearchOpen}
+        posts={ALL_POSTS}
+        categories={categories}
+        bookmarkedSlugs={bookmarkedSlugs}
+        onClose={() => setIsSearchOpen(false)}
+        onOpenPost={navigateToPost}
+        onSelectCategory={(cat) => navigateHome(cat)}
+      />
+
+      <ReadingListDrawer
+        isOpen={isReadingListOpen}
+        savedPosts={savedPosts}
+        readSlugs={readSlugs}
+        onClose={() => setIsReadingListOpen(false)}
+        onOpenPost={navigateToPost}
+        onRemoveBookmark={toggleBookmark}
+        onClearAll={clearAllBookmarks}
+      />
+
+      <MobileNavDrawer
+        isOpen={isMobileMenuOpen}
+        theme={theme}
+        categories={categories}
+        categoryCounts={categoryCounts}
+        activeCategory={activeCategory}
+        bookmarkCount={bookmarkedSlugs.length}
+        onClose={() => setIsMobileMenuOpen(false)}
+        onSelectCategory={(cat) => navigateHome(cat)}
+        onToggleTheme={toggleTheme}
+        onOpenSearch={() => setIsSearchOpen(true)}
+        onOpenReadingList={() => setIsReadingListOpen(true)}
+      />
+
+      <LightboxModal
+        image={lightboxImage}
+        onClose={() => setLightboxImage(null)}
+      />
     </div>
   );
 }

@@ -2,13 +2,17 @@ import { useState, type ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import { Check, Copy } from 'lucide-react';
+import { Check, Copy, ZoomIn } from 'lucide-react';
 import { slugifyHeading } from '../lib/posts';
+import type { ReaderFontSize } from '../lib/preferences';
 import { EditorialImage } from './EditorialImage';
+import type { LightboxImageData } from './LightboxModal';
 
 interface MarkdownRendererProps {
   content: string;
+  fontSize?: ReaderFontSize;
   onNavigateSlug?: (slug: string) => void;
+  onZoomImage?: (image: LightboxImageData) => void;
 }
 
 function extractNodeText(children: ReactNode): string {
@@ -55,13 +59,13 @@ function CodeBlock({
 
   return (
     <div className="relative group my-8">
-      <div className="flex items-center justify-between px-4 py-2 text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-[#181B20] border border-b-0 border-zinc-200 dark:border-zinc-800 rounded-t-lg">
+      <div className="flex items-center justify-between px-4 py-2 text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-slate-400 bg-zinc-100 dark:bg-[#0D192B] border border-b-0 border-zinc-200 dark:border-slate-700/80 rounded-t-lg">
         <span>{language || 'code'}</span>
         <button
           type="button"
           onClick={handleCopy}
           aria-label="Copy code snippet"
-          className="inline-flex items-center gap-1.5 px-2 py-1 rounded text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-200/70 dark:hover:bg-zinc-800 transition-colors cursor-pointer whitespace-nowrap shrink-0"
+          className="inline-flex items-center gap-1.5 px-2 py-1 rounded text-zinc-600 dark:text-slate-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-200/70 dark:hover:bg-slate-800 transition-colors cursor-pointer whitespace-nowrap shrink-0"
         >
           {copied ? (
             <>
@@ -85,10 +89,19 @@ function CodeBlock({
 
 export function MarkdownRenderer({
   content,
+  fontSize = 'md',
   onNavigateSlug,
+  onZoomImage,
 }: MarkdownRendererProps) {
+  const sizeClass =
+    fontSize === 'sm'
+      ? 'prose-size-sm'
+      : fontSize === 'lg'
+        ? 'prose-size-lg'
+        : '';
+
   return (
-    <div className="editorial-prose">
+    <div className={`editorial-prose ${sizeClass}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
@@ -97,7 +110,7 @@ export function MarkdownRenderer({
             const text = extractNodeText(children);
             const id = slugifyHeading(text);
             return (
-              <h2 id={id} className="scroll-mt-24" {...props}>
+              <h2 id={id} data-toc-heading="true" className="scroll-mt-24" {...props}>
                 {children}
               </h2>
             );
@@ -106,20 +119,39 @@ export function MarkdownRenderer({
             const text = extractNodeText(children);
             const id = slugifyHeading(text);
             return (
-              <h3 id={id} className="scroll-mt-24" {...props}>
+              <h3 id={id} data-toc-heading="true" className="scroll-mt-24" {...props}>
                 {children}
               </h3>
             );
           },
           img: ({ src, alt, title }) => {
+            const imgSrc = src || '';
+            const imgAlt = alt || '';
             const imageNode = (
-              <div className="overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900">
+              <div className="group relative overflow-hidden rounded-xl border border-zinc-200 dark:border-slate-800 bg-zinc-100 dark:bg-slate-900">
                 <EditorialImage
-                  src={src || ''}
-                  alt={alt || ''}
+                  src={imgSrc}
+                  alt={imgAlt}
                   className="w-full h-auto object-cover"
                   aspectClassName="aspect-[4/3]"
                 />
+                {onZoomImage && imgSrc && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onZoomImage({
+                        src: imgSrc,
+                        alt: imgAlt,
+                        caption: title || undefined,
+                      })
+                    }
+                    aria-label={`Zoom image: ${imgAlt || 'clinical figure'}`}
+                    className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] font-medium rounded-md bg-black/65 text-white backdrop-blur-sm opacity-85 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity cursor-pointer"
+                  >
+                    <ZoomIn className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>Zoom</span>
+                  </button>
+                )}
               </div>
             );
 

@@ -1,10 +1,11 @@
-import { Moon, Sun } from 'lucide-react';
+import { Menu, Moon, Sun } from 'lucide-react';
 
 interface HeaderProps {
   theme: 'light' | 'dark';
   onToggleTheme: () => void;
   activeCategory: string;
   onNavigateHome: (category?: string) => void;
+  onOpenMobileMenu: () => void;
   readingProgress?: number | null;
 }
 
@@ -21,10 +22,11 @@ export function Header({
   onToggleTheme,
   activeCategory,
   onNavigateHome,
+  onOpenMobileMenu,
   readingProgress = null,
 }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-40 bg-[#FAFAFA]/95 dark:bg-[#081221]/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-colors duration-200">
+    <header className="sticky top-0 z-40 bg-[#FAFAFA]/90 dark:bg-[#081221]/85 backdrop-blur-xl border-b border-zinc-200/80 dark:border-slate-800/80 transition-colors duration-200">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-8">
         {/* Zone 1: Single text element wordmark */}
         <a
@@ -41,7 +43,7 @@ export function Header({
         {/* Zone 2: Concise single-line navigation links */}
         <nav
           aria-label="Primary sections"
-          className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-600 dark:text-zinc-400"
+          className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-600 dark:text-slate-300"
         >
           {NAV_ITEMS.map((item) => {
             const isActive = activeCategory === item.category;
@@ -65,7 +67,7 @@ export function Header({
           })}
         </nav>
 
-        {/* Zone 3: Single primary theme action */}
+        {/* Zone 3: Single primary action (Theme toggle on desktop, Drawer menu on mobile) */}
         <div className="flex items-center shrink-0">
           <button
             type="button"
@@ -73,7 +75,7 @@ export function Header({
             aria-label={
               theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
             }
-            className="inline-flex items-center gap-2 min-h-[40px] px-3.5 py-2 text-xs font-medium rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#14161A] text-zinc-800 dark:text-zinc-200 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800/80 transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] dark:focus-visible:ring-[#60A5FA]"
+            className="hidden md:inline-flex items-center gap-2 min-h-[40px] px-3.5 py-2 text-xs font-medium rounded-lg border border-zinc-200 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/60 text-zinc-800 dark:text-slate-200 hover:border-zinc-300 dark:hover:border-slate-600 hover:bg-zinc-50 dark:hover:bg-slate-800/80 transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] dark:focus-visible:ring-[#60A5FA]"
           >
             {theme === 'dark' ? (
               <>
@@ -86,6 +88,15 @@ export function Header({
                 <span>Dark</span>
               </>
             )}
+          </button>
+
+          <button
+            type="button"
+            onClick={onOpenMobileMenu}
+            aria-label="Open navigation menu"
+            className="inline-flex md:hidden items-center justify-center min-h-[44px] min-w-[44px] px-3 py-2 text-xs font-medium rounded-lg border border-zinc-200 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/60 text-zinc-800 dark:text-slate-200 hover:bg-zinc-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+          >
+            <Menu className="w-4 h-4" aria-hidden="true" />
           </button>
         </div>
       </div>
