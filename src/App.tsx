@@ -12,6 +12,7 @@ import { HomeFeed } from './components/HomeFeed';
 import { LightboxModal, type LightboxImageData } from './components/LightboxModal';
 import { MobileNavDrawer } from './components/MobileNavDrawer';
 import { ReadingListDrawer } from './components/ReadingListDrawer';
+import { SEO } from './components/SEO';
 import {
   ALL_POSTS,
   getAllCategories,
@@ -38,11 +39,19 @@ declare global {
 type ThemeMode = 'light' | 'dark';
 
 function parseHashRoute(): { view: 'home' } | { view: 'post'; slug: string } {
-  const hash = window.location.hash || '#/';
+  const hash = window.location.hash || '';
   const postMatch = hash.match(/^#\/post\/([^/?#]+)/);
   if (postMatch && postMatch[1]) {
     return { view: 'post', slug: decodeURIComponent(postMatch[1]) };
   }
+
+  // Support direct pathname deep links from prerendered pages
+  const pathname = window.location.pathname || '';
+  const pathMatch = pathname.match(/\/post\/([^/?#]+)\/?$/);
+  if (pathMatch && pathMatch[1]) {
+    return { view: 'post', slug: decodeURIComponent(pathMatch[1]) };
+  }
+
   return { view: 'home' };
 }
 
@@ -119,7 +128,6 @@ export default function App() {
 
   useEffect(() => {
     if (route.view === 'post' && activePost) {
-      document.title = `${activePost.title} — Radiology Unfiltered`;
       setReadSlugs((prev) => {
         if (prev.includes(activePost.slug)) return prev;
         const next = [...prev, activePost.slug];
@@ -127,7 +135,6 @@ export default function App() {
         return next;
       });
     } else {
-      document.title = 'Radiology Unfiltered';
       setReadingProgress(null);
     }
   }, [route, activePost]);
@@ -209,6 +216,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-[#0A0A0A] dark:bg-[#01060f] dark:bg-[linear-gradient(to_bottom,#05204d,#01060f)] dark:bg-fixed dark:text-[#F4F4F5] transition-colors duration-200">
+      <SEO
+        post={activePost}
+        category={route.view === 'home' ? activeCategory : undefined}
+      />
       <Header
         theme={theme}
         onToggleTheme={toggleTheme}

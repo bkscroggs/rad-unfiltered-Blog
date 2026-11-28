@@ -126,7 +126,7 @@ export function MarkdownRenderer({
           },
           img: ({ src, alt, title }) => {
             const imgSrc = src || '';
-            const imgAlt = alt || '';
+            const imgAlt = alt || title || 'Radiology clinical imaging figure';
             const imageNode = (
               <div className="group relative overflow-hidden rounded-xl border border-zinc-200 dark:border-slate-800 bg-zinc-100 dark:bg-slate-900">
                 <EditorialImage

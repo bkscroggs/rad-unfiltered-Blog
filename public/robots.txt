@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bkscroggs.github.io/rad-unfiltered-Blog/sitemap.xml
