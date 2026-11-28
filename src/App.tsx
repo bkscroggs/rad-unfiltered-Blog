@@ -29,6 +29,12 @@ import {
   type SortOption,
 } from './lib/preferences';
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 type ThemeMode = 'light' | 'dark';
 
 function parseHashRoute(): { view: 'home' } | { view: 'post'; slug: string } {
@@ -124,6 +130,16 @@ export default function App() {
       document.title = 'Radiology Unfiltered';
       setReadingProgress(null);
     }
+  }, [route, activePost]);
+
+  useEffect(() => {
+    if (typeof window.gtag !== 'function') return;
+
+    window.gtag('event', 'page_view', {
+      page_title: document.title,
+      page_location: window.location.href,
+      page_path: `${window.location.pathname}${window.location.hash || '#/'}`,
+    });
   }, [route, activePost]);
 
   const navigateHome = useCallback((category?: string) => {
