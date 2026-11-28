@@ -132,25 +132,25 @@ export function ArticleView({
   const isWide = readerPrefs.width === 'wide';
 
   return (
-    <article className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 pb-20">
+    <article className="max-w-container-max mx-auto px-gutter-md sm:px-gutter-lg lg:px-gutter-xl pt-gutter-lg sm:pt-gutter-xl pb-section">
       {/* Top Action Bar: Back + Reader Comfort Controls */}
-      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+      <div className="mb-gutter-lg flex flex-wrap items-center justify-between gap-gutter-md">
         <button
           type="button"
           onClick={onBackHome}
-          className="inline-flex items-center gap-2 min-h-[40px] px-3 py-1.5 -ml-3 text-xs font-medium text-zinc-600 dark:text-slate-300 hover:text-[#0A0A0A] dark:hover:text-white rounded-lg transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] dark:focus-visible:ring-[#60A5FA]"
+          className="inline-flex items-center gap-gutter-xs min-h-[40px] px-gutter-sm text-label-lg font-label text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface rounded transition-colors cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-lapis"
         >
-          <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+          <ArrowLeft className="w-4 h-4" aria-hidden="true" />
           <span>Back to All Articles</span>
         </button>
 
         {/* Reader Comfort Toolbar */}
-        <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border border-zinc-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-[#0D192B]/70 backdrop-blur-md">
+        <div className="flex flex-wrap items-center gap-gutter-xs p-gutter-xs rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/70 backdrop-blur-md">
           {/* Font Size Controls */}
           <div
             role="group"
             aria-label="Reader text size"
-            className="flex items-center gap-0.5 pr-2 border-r border-zinc-200 dark:border-slate-700/80"
+            className="flex items-center gap-0.5 pr-gutter-xs border-r border-light-outline dark:border-dark-outline"
           >
             {FONT_SIZE_OPTIONS.map((opt) => {
               const selected = readerPrefs.fontSize === opt.value;
@@ -163,10 +163,10 @@ export function ArticleView({
                   }
                   aria-pressed={selected}
                   aria-label={`Font size ${opt.label}`}
-                  className={`min-w-[30px] min-h-[32px] px-2 text-xs font-medium rounded-md transition-colors cursor-pointer ${
+                  className={`min-w-[32px] min-h-[32px] px-2 text-label-lg font-label rounded-sm transition-colors cursor-pointer ${
                     selected
-                      ? 'bg-[#0A0A0A] text-white dark:bg-[#F4F4F5] dark:text-[#0A0A0A]'
-                      : 'text-zinc-600 dark:text-slate-300 hover:bg-zinc-100 dark:hover:bg-slate-800'
+                      ? 'bg-light-primary text-light-on-primary dark:bg-dark-primary dark:text-dark-on-primary'
+                      : 'text-light-on-surface-variant dark:text-dark-on-surface-variant hover:bg-zinc-100 dark:hover:bg-slate-800'
                   }`}
                 >
                   {opt.label}
@@ -186,10 +186,10 @@ export function ArticleView({
             }
             aria-pressed={isWide}
             aria-label="Toggle reading column width"
-            className={`inline-flex items-center gap-1.5 min-h-[32px] px-2.5 text-xs font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap ${
+            className={`inline-flex items-center gap-1.5 min-h-[32px] px-gutter-sm text-label-lg font-label rounded-sm transition-colors cursor-pointer whitespace-nowrap ${
               isWide
-                ? 'bg-[#1E3A8A]/10 text-[#1E3A8A] dark:bg-[#60A5FA]/15 dark:text-[#93C5FD]'
-                : 'text-zinc-600 dark:text-slate-300 hover:bg-zinc-100 dark:hover:bg-slate-800'
+                ? 'bg-lapis/10 text-lapis dark:bg-lapis/20 dark:text-lapis-light'
+                : 'text-light-on-surface-variant dark:text-dark-on-surface-variant hover:bg-zinc-100 dark:hover:bg-slate-800'
             }`}
           >
             <Columns2 className="w-3.5 h-3.5" aria-hidden="true" />
@@ -201,12 +201,12 @@ export function ArticleView({
             type="button"
             onClick={() => onToggleBookmark(post.slug)}
             aria-pressed={isBookmarked}
-            className="inline-flex items-center gap-1.5 min-h-[32px] px-2.5 text-xs font-medium rounded-md text-zinc-700 dark:text-slate-200 hover:bg-zinc-100 dark:hover:bg-slate-800 transition-colors cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 min-h-[32px] px-gutter-sm text-label-lg font-label rounded-sm text-light-on-surface dark:text-dark-on-surface hover:bg-zinc-100 dark:hover:bg-slate-800 transition-colors cursor-pointer whitespace-nowrap"
           >
             <Bookmark
               className={`w-3.5 h-3.5 ${
                 isBookmarked
-                  ? 'fill-[#1E3A8A] text-[#1E3A8A] dark:fill-[#60A5FA] dark:text-[#60A5FA]'
+                  ? 'fill-current text-lapis'
                   : ''
               }`}
               aria-hidden="true"
@@ -219,20 +219,18 @@ export function ArticleView({
             type="button"
             onClick={onOpenCommandSearch}
             aria-label="Open instant search"
-            className="inline-flex items-center gap-1.5 min-h-[32px] px-2.5 text-xs font-medium rounded-md text-zinc-600 dark:text-slate-300 hover:bg-zinc-100 dark:hover:bg-slate-800 transition-colors cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 min-h-[32px] px-gutter-sm text-label-lg font-label rounded-sm text-light-on-surface-variant dark:text-dark-on-surface-variant hover:bg-zinc-100 dark:hover:bg-slate-800 transition-colors cursor-pointer whitespace-nowrap"
           >
             <Search className="w-3.5 h-3.5" aria-hidden="true" />
-            <span className="hidden sm:inline font-mono text-[11px]">⌘K</span>
+            <span className="hidden sm:inline font-mono text-mono-sm">⌘K</span>
           </button>
         </div>
       </div>
 
       {/* Article Masthead */}
       <header className="max-w-3xl">
-        <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-slate-400">
-          <span className="font-medium uppercase tracking-wider text-[#1E3A8A] dark:text-[#60A5FA]">
-            {post.category}
-          </span>
+        <div className="flex flex-wrap items-center gap-gutter-xs text-label-md font-label uppercase text-light-primary dark:text-dark-primary">
+          <span>{post.category}</span>
           <span aria-hidden="true">·</span>
           <time dateTime={post.date}>{post.formattedDate}</time>
           <span aria-hidden="true">·</span>
@@ -241,18 +239,18 @@ export function ArticleView({
           <span className="tabular-nums">{post.wordCount} words</span>
         </div>
 
-        <h1 className="mt-4 font-serif text-3xl sm:text-4xl lg:text-[3.25rem] font-semibold tracking-tight leading-[1.1] text-[#0A0A0A] dark:text-[#F4F4F5]">
+        <h1 className="mt-gutter-sm font-headline text-headline-lg-mobile md:text-headline-lg lg:text-[48px] lg:leading-[52px] font-semibold tracking-tight text-light-on-surface dark:text-dark-on-surface text-balance">
           {post.title}
         </h1>
 
-        <p className="mt-5 text-lg sm:text-xl text-zinc-600 dark:text-slate-300 leading-relaxed">
+        <p className="mt-gutter-md font-body text-body-lg text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty leading-relaxed">
           {post.summary}
         </p>
       </header>
 
       {/* Cover Photograph with Lightbox Zoom */}
-      <figure className="group relative mt-8 sm:mt-10 overflow-hidden rounded-2xl border border-zinc-200/80 dark:border-slate-800/80 bg-zinc-100 dark:bg-slate-900 shadow-sm">
-        <div className="aspect-[16/9] w-full overflow-hidden">
+      <figure className="group relative mt-gutter-lg sm:mt-gutter-xl overflow-hidden rounded-md border border-light-outline dark:border-dark-outline bg-dark-surface-deep shadow-sm">
+        <div className="aspect-video w-full overflow-hidden">
           <EditorialImage
             src={post.coverImage}
             alt={post.title}
@@ -271,7 +269,7 @@ export function ArticleView({
               })
             }
             aria-label="Zoom cover photograph"
-            className="absolute bottom-4 right-4 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-black/65 text-white backdrop-blur-sm opacity-90 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity cursor-pointer"
+            className="absolute bottom-4 right-4 inline-flex items-center gap-1.5 px-3 py-1.5 text-label-lg font-label rounded bg-black/75 text-white backdrop-blur-sm opacity-90 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-opacity cursor-pointer"
           >
             <ZoomIn className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Inspect Figure</span>
@@ -304,15 +302,15 @@ export function ArticleView({
           aria-label="Article notes and section index"
           className={`${
             isWide ? 'lg:col-span-3' : 'lg:col-span-4'
-          } lg:sticky lg:top-24 space-y-6`}
+          } lg:sticky lg:top-24 space-y-gutter-md`}
         >
           {post.headings.length > 0 && (
-            <div className="p-5 rounded-2xl border border-zinc-200/80 dark:border-slate-800/80 bg-white/75 dark:bg-[#0D192B]/65 backdrop-blur-md">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 dark:text-slate-400 mb-3.5">
+            <div className="p-gutter-lg rounded-md border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/40 backdrop-blur-md shadow-sm">
+              <h2 className="font-label text-label-md uppercase text-light-primary dark:text-dark-primary mb-gutter-sm">
                 In This Article
               </h2>
               <nav aria-label="Table of contents">
-                <ul className="space-y-2 text-sm">
+                <ul className="space-y-2 text-body-sm font-body">
                   {post.headings.map((heading) => {
                     const isActive = activeHeadingId === heading.id;
                     return (
@@ -323,10 +321,10 @@ export function ArticleView({
                         <button
                           type="button"
                           onClick={() => scrollToHeading(heading.id)}
-                          className={`text-left transition-colors leading-snug cursor-pointer ${
+                          className={`text-left transition-colors duration-state-change leading-snug cursor-pointer ${
                             isActive
-                              ? 'font-semibold text-[#1E3A8A] dark:text-[#60A5FA]'
-                              : 'text-zinc-600 dark:text-slate-400 hover:text-[#0A0A0A] dark:hover:text-white'
+                              ? 'font-semibold text-light-primary dark:text-dark-primary'
+                              : 'text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface'
                           }`}
                         >
                           {heading.text}
@@ -339,26 +337,26 @@ export function ArticleView({
             </div>
           )}
 
-          <div className="p-5 rounded-2xl border border-zinc-200/80 dark:border-slate-800/80 bg-white/75 dark:bg-[#0D192B]/65 backdrop-blur-md">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 dark:text-slate-400 mb-3.5">
+          <div className="p-gutter-lg rounded-md border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/40 backdrop-blur-md shadow-sm">
+            <h2 className="font-label text-label-md uppercase text-light-primary dark:text-dark-primary mb-gutter-sm">
               Colophon
             </h2>
-            <dl className="space-y-2.5 text-xs">
-              <div className="flex justify-between gap-4 py-1 border-b border-zinc-100 dark:border-slate-800/70">
-                <dt className="text-zinc-500 dark:text-slate-400">Section</dt>
-                <dd className="font-medium text-zinc-900 dark:text-slate-100 text-right">
+            <dl className="space-y-2.5 text-body-sm">
+              <div className="flex justify-between gap-4 py-1 border-b border-light-outline/70 dark:border-dark-outline/70">
+                <dt className="text-light-on-surface-variant dark:text-dark-on-surface-variant">Section</dt>
+                <dd className="font-medium text-light-on-surface dark:text-dark-on-surface text-right">
                   {post.category}
                 </dd>
               </div>
-              <div className="flex justify-between gap-4 py-1 border-b border-zinc-100 dark:border-slate-800/70">
-                <dt className="text-zinc-500 dark:text-slate-400">Published</dt>
-                <dd className="font-medium text-zinc-900 dark:text-slate-100 text-right">
+              <div className="flex justify-between gap-4 py-1 border-b border-light-outline/70 dark:border-dark-outline/70">
+                <dt className="text-light-on-surface-variant dark:text-dark-on-surface-variant">Published</dt>
+                <dd className="font-medium text-light-on-surface dark:text-dark-on-surface text-right">
                   {post.formattedDate}
                 </dd>
               </div>
-              <div className="flex justify-between gap-4 py-1 border-b border-zinc-100 dark:border-slate-800/70">
-                <dt className="text-zinc-500 dark:text-slate-400">Length</dt>
-                <dd className="font-medium text-zinc-900 dark:text-slate-100 tabular-nums text-right">
+              <div className="flex justify-between gap-4 py-1 border-b border-light-outline/70 dark:border-dark-outline/70">
+                <dt className="text-light-on-surface-variant dark:text-dark-on-surface-variant">Length</dt>
+                <dd className="font-mono text-mono-sm font-medium text-light-on-surface dark:text-dark-on-surface tabular-nums text-right">
                   {post.wordCount} words ({post.readingTimeLabel})
                 </dd>
               </div>
@@ -367,19 +365,19 @@ export function ArticleView({
             <button
               type="button"
               onClick={handleCopyShareLink}
-              className="mt-5 w-full inline-flex items-center justify-center gap-2 min-h-[40px] px-4 py-2 text-xs font-medium rounded-lg border border-zinc-200 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/60 text-zinc-800 dark:text-slate-200 hover:border-zinc-300 dark:hover:border-slate-600 transition-colors cursor-pointer whitespace-nowrap"
+              className="mt-gutter-md w-full inline-flex items-center justify-center gap-gutter-xs h-10 px-gutter-md text-label-lg font-label rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/70 text-light-on-surface dark:text-dark-on-surface hover:border-lapis transition-colors duration-state-change cursor-pointer whitespace-nowrap"
             >
               {linkCopied ? (
                 <>
                   <Check
-                    className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"
+                    className="w-4 h-4 text-success"
                     aria-hidden="true"
                   />
                   <span>Link Copied</span>
                 </>
               ) : (
                 <>
-                  <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
+                  <Link2 className="w-4 h-4" aria-hidden="true" />
                   <span>Copy Article Link</span>
                 </>
               )}
@@ -390,62 +388,55 @@ export function ArticleView({
 
       {/* Continue Reading Section */}
       {relatedPosts.length > 0 && (
-        <section className="mt-16 pt-12 border-t border-zinc-200/80 dark:border-slate-800/80">
-          <h2 className="font-serif text-2xl font-semibold tracking-tight text-[#0A0A0A] dark:text-[#F4F4F5] mb-8">
+        <section className="mt-section pt-gutter-xl border-t border-light-outline/80 dark:border-dark-outline/80">
+          <h2 className="font-headline text-headline-md text-light-on-surface dark:text-dark-on-surface mb-gutter-lg">
             Continue Reading
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter-lg">
             {relatedPosts.map((related) => (
               <article
                 key={related.slug}
-                className="group flex flex-col justify-between p-6 rounded-2xl border border-zinc-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-[#0D192B]/60 backdrop-blur-md shadow-sm transition-transform duration-200 hover:-translate-y-0.5"
+                className="rounded-md border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/35 backdrop-blur-md p-gutter-lg flex flex-col justify-between shadow-sm transition-colors duration-state-change hover:border-lapis"
               >
                 <div>
-                  <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-slate-400">
-                    <span className="font-medium text-zinc-800 dark:text-slate-200">
-                      {related.category}
-                    </span>
+                  <div className="flex flex-wrap items-center gap-gutter-xs text-label-md font-label uppercase text-light-primary dark:text-dark-primary">
+                    <span>{related.category}</span>
                     <span aria-hidden="true">·</span>
                     <time dateTime={related.date}>{related.formattedDate}</time>
                     <span aria-hidden="true">·</span>
-                    <span className="tabular-nums">
-                      {related.readingTimeLabel}
-                    </span>
+                    <span className="tabular-nums">{related.readingTimeLabel}</span>
                   </div>
 
-                  <h3 className="mt-3 font-serif text-xl font-semibold tracking-tight text-[#0A0A0A] dark:text-[#F4F4F5]">
+                  <h3 className="mt-gutter-xs font-headline text-headline-sm text-light-on-surface dark:text-dark-on-surface text-balance">
                     <a
                       href={`#/post/${related.slug}`}
                       onClick={(e) => {
                         e.preventDefault();
                         onOpenPost(related.slug);
                       }}
-                      className="hover:text-[#1E3A8A] dark:hover:text-[#93C5FD] transition-colors"
+                      className="hover:text-light-primary dark:hover:text-dark-primary transition-colors duration-state-change"
                     >
                       {related.title}
                     </a>
                   </h3>
 
-                  <p className="mt-2 text-sm text-zinc-600 dark:text-slate-300/90 leading-relaxed line-clamp-2">
+                  <p className="mt-gutter-xs font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty line-clamp-2">
                     {related.summary}
                   </p>
                 </div>
 
-                <div className="mt-5">
+                <div className="mt-gutter-md pt-gutter-sm border-t border-light-outline/70 dark:border-dark-outline/70">
                   <a
                     href={`#/post/${related.slug}`}
                     onClick={(e) => {
                       e.preventDefault();
                       onOpenPost(related.slug);
                     }}
-                    className="inline-flex items-center gap-1.5 text-xs font-medium text-[#1E3A8A] dark:text-[#60A5FA] hover:underline underline-offset-4 whitespace-nowrap"
+                    className="inline-flex items-center gap-gutter-xs font-label text-label-lg text-light-primary dark:text-dark-primary hover:underline whitespace-nowrap cursor-pointer"
                   >
                     <span>Read Article</span>
-                    <ArrowRight
-                      className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5"
-                      aria-hidden="true"
-                    />
+                    <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                   </a>
                 </div>
               </article>

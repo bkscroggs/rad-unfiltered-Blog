@@ -5,11 +5,119 @@
   --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-headline: "Playfair Display", Georgia, serif;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-label: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  --color-lapis: #60A5FA;
+  --color-lapis-light: #93C5FD;
+  --color-lapis-deep: #41368F;
+  --color-success: #34D399;
+  --color-warning: #FCD34D;
+  --color-error: #F87171;
+
+  --color-light-primary: #41368F;
+  --color-light-on-primary: #FFFFFF;
+  --color-light-secondary: #41368F;
+  --color-light-surface: #FAFAFA;
+  --color-light-surface-container: #FFFFFF;
+  --color-light-on-surface: #0A0A0A;
+  --color-light-on-surface-variant: #52525B;
+  --color-light-outline: #E4E4E7;
+  --color-light-outline-variant: #D4D4D8;
+
+  --color-dark-primary: #60A5FA;
+  --color-dark-on-primary: #081221;
+  --color-dark-secondary: #93C5FD;
+  --color-dark-surface: #081221;
+  --color-dark-surface-deep: #01060f;
+  --color-dark-surface-container: #0D192D;
+  --color-dark-on-surface: #F4F4F5;
+  --color-dark-on-surface-body: #E4E4E7;
+  --color-dark-on-surface-variant: #94A3B8;
+  --color-dark-outline: #334155;
+  --color-dark-outline-variant: #1E293B;
+
+  --spacing-gutter-xs: 4px;
+  --spacing-gutter-sm: 8px;
+  --spacing-gutter-md: 16px;
+  --spacing-gutter-lg: 24px;
+  --spacing-gutter-xl: 32px;
+  --spacing-section: 48px;
+  --spacing-container-max: 1200px;
+
+  --duration-state-change: 150ms;
+  --duration-surface-enter: 250ms;
+  --duration-image-zoom: 300ms;
+}
+
+@layer utilities {
+  .text-headline-lg {
+    font-size: 44px;
+    line-height: 48px;
+    letter-spacing: -0.4px;
+    font-weight: 600;
+  }
+  .text-headline-lg-mobile {
+    font-size: 32px;
+    line-height: 36px;
+    letter-spacing: -0.25px;
+    font-weight: 600;
+  }
+  .text-headline-md {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.2px;
+    font-weight: 600;
+  }
+  .text-headline-sm {
+    font-size: 21px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    font-weight: 600;
+  }
+  .text-body-lg {
+    font-size: 19px;
+    line-height: 35px;
+    letter-spacing: 0px;
+    font-weight: 400;
+  }
+  .text-body-md {
+    font-size: 17px;
+    line-height: 31px;
+    letter-spacing: 0px;
+    font-weight: 400;
+  }
+  .text-body-sm {
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    font-weight: 400;
+  }
+  .text-label-lg {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    font-weight: 600;
+  }
+  .text-label-md {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+  }
+  .text-mono-sm {
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: 0px;
+    font-weight: 500;
+  }
 }
 
 @layer base {
   html {
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

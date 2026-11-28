@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 const NAV_ITEMS = [
-  { label: 'All Coverage', category: 'All' },
+  { label: 'Articles', category: 'All' },
   { label: 'CT & Spectral', category: 'CT & Spectral Imaging' },
   { label: 'MRI', category: 'MRI' },
   { label: 'Mammography', category: "Mammography & Women's Imaging" },
@@ -26,24 +26,24 @@ export function Header({
   readingProgress = null,
 }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-40 bg-[#FAFAFA]/90 dark:bg-[#081221]/85 backdrop-blur-xl border-b border-zinc-200/80 dark:border-slate-800/80 transition-colors duration-200">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-8">
-        {/* Zone 1: Single text element wordmark */}
+    <header className="sticky top-0 z-40 border-b border-light-outline/80 dark:border-dark-outline/80 bg-light-surface/90 dark:bg-dark-surface/85 backdrop-blur-xl">
+      <div className="max-w-container-max mx-auto px-gutter-md sm:px-gutter-lg lg:px-gutter-xl h-14 sm:h-16 flex items-center justify-between gap-gutter-md">
+        {/* Zone 1: Single-line Serif Wordmark */}
         <a
           href="#/"
           onClick={(e) => {
             e.preventDefault();
             onNavigateHome('All');
           }}
-          className="font-serif text-xl sm:text-2xl font-semibold tracking-tight text-[#0A0A0A] dark:text-[#F4F4F5] whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] dark:focus-visible:ring-[#60A5FA] rounded-sm"
+          className="font-display text-headline-sm text-light-on-surface dark:text-dark-on-surface whitespace-nowrap tracking-tight hover:text-light-primary dark:hover:text-dark-primary transition-colors duration-state-change"
         >
-          Radiology Unfiltered
+          <span>Radiology Unfiltered</span>
         </a>
 
-        {/* Zone 2: Concise single-line navigation links */}
+        {/* Zone 2: Primary Navigation */}
         <nav
-          aria-label="Primary sections"
-          className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-600 dark:text-slate-300"
+          aria-label="Primary navigation"
+          className="hidden md:flex items-center gap-gutter-lg"
         >
           {NAV_ITEMS.map((item) => {
             const isActive = activeCategory === item.category;
@@ -55,38 +55,30 @@ export function Header({
                   e.preventDefault();
                   onNavigateHome(item.category);
                 }}
-                className={`relative py-1 whitespace-nowrap shrink-0 transition-colors duration-150 hover:text-[#0A0A0A] dark:hover:text-[#F4F4F5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] dark:focus-visible:ring-[#60A5FA] rounded-sm ${
+                className={`font-label text-label-lg py-gutter-xs whitespace-nowrap transition-colors duration-state-change ${
                   isActive
-                    ? 'text-[#0A0A0A] dark:text-[#F4F4F5] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-[#1E3A8A] dark:after:bg-[#60A5FA]'
-                    : ''
+                    ? 'text-light-primary dark:text-dark-primary border-b-2 border-light-primary dark:border-dark-primary'
+                    : 'text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface'
                 }`}
               >
-                {item.label}
+                <span>{item.label}</span>
               </a>
             );
           })}
         </nav>
 
-        {/* Zone 3: Single primary action (Theme toggle on desktop, Drawer menu on mobile) */}
-        <div className="flex items-center shrink-0">
+        {/* Zone 3: Theme Toggle & Mobile Menu */}
+        <div className="flex items-center gap-gutter-sm">
           <button
             type="button"
             onClick={onToggleTheme}
-            aria-label={
-              theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
-            }
-            className="hidden md:inline-flex items-center gap-2 min-h-[40px] px-3.5 py-2 text-xs font-medium rounded-lg border border-zinc-200 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/60 text-zinc-800 dark:text-slate-200 hover:border-zinc-300 dark:hover:border-slate-600 hover:bg-zinc-50 dark:hover:bg-slate-800/80 transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A8A] dark:focus-visible:ring-[#60A5FA]"
+            aria-label="Toggle light or dark reading theme"
+            className="inline-flex items-center justify-center w-10 h-10 rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/75 backdrop-blur-md text-light-on-surface-variant dark:text-dark-on-surface-variant transition-colors duration-state-change hover:text-light-primary dark:hover:text-dark-primary hover:border-lapis cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lapis"
           >
             {theme === 'dark' ? (
-              <>
-                <Sun className="w-3.5 h-3.5 text-amber-300" aria-hidden="true" />
-                <span>Light</span>
-              </>
+              <Sun className="w-5 h-5 text-warning" aria-hidden="true" />
             ) : (
-              <>
-                <Moon className="w-3.5 h-3.5 text-[#1E3A8A]" aria-hidden="true" />
-                <span>Dark</span>
-              </>
+              <Moon className="w-5 h-5 text-light-primary" aria-hidden="true" />
             )}
           </button>
 
@@ -94,22 +86,23 @@ export function Header({
             type="button"
             onClick={onOpenMobileMenu}
             aria-label="Open navigation menu"
-            className="inline-flex md:hidden items-center justify-center min-h-[44px] min-w-[44px] px-3 py-2 text-xs font-medium rounded-lg border border-zinc-200 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/60 text-zinc-800 dark:text-slate-200 hover:bg-zinc-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/75 text-light-on-surface-variant dark:text-dark-on-surface-variant cursor-pointer"
           >
-            <Menu className="w-4 h-4" aria-hidden="true" />
+            <Menu className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
       </div>
 
+      {/* 2px Reading Depth Progress Bar */}
       {readingProgress !== null && (
         <div
           aria-hidden="true"
-          className="h-[2px] w-full bg-transparent overflow-hidden"
+          className="w-full h-0.5 bg-light-outline-variant/40 dark:bg-dark-outline-variant/60"
         >
           <div
-            className="h-full bg-[#1E3A8A] dark:bg-[#60A5FA] origin-left transition-transform duration-150 ease-out"
+            className="h-full bg-light-primary dark:bg-dark-primary transition-all duration-state-change"
             style={{
-              transform: `scaleX(${Math.min(1, Math.max(0, readingProgress / 100))})`,
+              width: `${Math.min(100, Math.max(0, readingProgress))}%`,
             }}
           />
         </div>

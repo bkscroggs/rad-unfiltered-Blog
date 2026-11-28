@@ -1,0 +1,507 @@
+<!DOCTYPE html><html lang="en" class="dark"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radiology Unfiltered — Clinical Commentary &amp; Modality Analysis</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'lapis': '#60A5FA',
+        'lapis-light': '#93C5FD',
+        'lapis-deep': '#41368F',
+        'success': '#34D399',
+        'warning': '#FCD34D',
+        'error': '#F87171',
+        'light-primary': '#41368F',
+        'light-on-primary': '#FFFFFF',
+        'light-secondary': '#41368F',
+        'light-on-secondary': '#FFFFFF',
+        'light-surface': '#FAFAFA',
+        'light-surface-container': '#FFFFFF',
+        'light-on-surface': '#0A0A0A',
+        'light-on-surface-variant': '#52525B',
+        'light-outline': '#E4E4E7',
+        'light-outline-variant': '#D4D4D8',
+        'dark-primary': '#60A5FA',
+        'dark-on-primary': '#081221',
+        'dark-secondary': '#93C5FD',
+        'dark-on-secondary': '#081221',
+        'dark-surface': '#0B2D63',
+        'dark-surface-deep': '#01060f',
+        'dark-surface-container': '#0D192D',
+        'dark-on-surface': '#F4F4F5',
+        'dark-on-surface-body': '#E4E4E7',
+        'dark-on-surface-variant': '#94A3B8',
+        'dark-outline': '#334155',
+        'dark-outline-variant': '#1E293B',
+      },
+      borderRadius: {
+        'sm': '4px',
+        'DEFAULT': '8px',
+        'md': '12px',
+        'lg': '16px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '48px',
+        'container-max': '1200px',
+      },
+      fontFamily: {
+        'display': ['"Playfair Display"', 'sans-serif'],
+        'headline': ['"Playfair Display"', 'sans-serif'],
+        'body': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'label': ['"Plus Jakarta Sans"', 'sans-serif'],
+        'mono': ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['52px', { lineHeight: '57px', letterSpacing: '-0.5px', fontWeight: '600' }],
+        'display-lg-mobile': ['32px', { lineHeight: '36px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-lg': ['44px', { lineHeight: '48px', letterSpacing: '-0.4px', fontWeight: '600' }],
+        'headline-lg-mobile': ['32px', { lineHeight: '36px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['32px', { lineHeight: '40px', letterSpacing: '-0.2px', fontWeight: '600' }],
+        'headline-sm': ['21px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['19px', { lineHeight: '35px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['17px', { lineHeight: '31px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['16px', { lineHeight: '28px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0.2px', fontWeight: '600' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '1.5px', fontWeight: '600' }],
+        'mono-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '150ms',
+        'surface-enter': '250ms',
+        'surface-exit': '150ms',
+        'image-zoom': '300ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+        'image-zoom': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+        'image-zoom': 'cubic-bezier(0.2, 0, 0, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400..700;1,400..700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }
+  </style>
+</head>
+<body class="font-body antialiased selection:bg-lapis/20 selection:text-lapis-light">
+  <div class="min-h-[1024px] flex flex-col bg-gradient-to-b from-light-surface to-light-surface dark:from-dark-surface dark:to-dark-surface-deep text-light-on-surface dark:text-dark-on-surface" data-stitch-vh="min-h-[1024px]===min-h-screen">
+
+    <!-- Sticky 3-Zone Header + 2px Reading Depth Progress Bar -->
+    <header class="sticky top-0 z-40 border-b border-light-outline/80 dark:border-dark-outline/80 bg-light-surface/90 dark:bg-dark-surface/85 backdrop-blur-xl">
+      <div class="max-w-container-max mx-auto px-gutter-md sm:px-gutter-lg lg:px-gutter-xl h-14 sm:h-16 flex items-center justify-between gap-gutter-md">
+        <!-- Zone 1: Single-line Serif Wordmark -->
+        <a href="#/" class="font-display text-headline-sm text-light-on-surface dark:text-dark-on-surface whitespace-nowrap tracking-tight hover:text-light-primary dark:hover:text-dark-primary transition-colors duration-state-change">
+          <span data-design-text-token="headline-sm">Radiology Unfiltered</span>
+        </a>
+
+        <!-- Zone 2: Primary Navigation -->
+        <nav aria-label="Primary navigation" class="hidden md:flex items-center gap-gutter-lg">
+          <a href="#/" class="font-label text-label-lg text-light-primary dark:text-dark-primary border-b-2 border-light-primary dark:border-dark-primary py-gutter-xs whitespace-nowrap">
+            <span data-design-text-token="label-lg">Articles</span>
+          </a>
+          <a href="#/ct-spectral" class="font-label text-label-lg text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface py-gutter-xs transition-colors duration-state-change whitespace-nowrap">
+            <span data-design-text-token="label-lg">CT &amp; Spectral</span>
+          </a>
+          <a href="#/mri" class="font-label text-label-lg text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface py-gutter-xs transition-colors duration-state-change whitespace-nowrap">
+            <span data-design-text-token="label-lg">MRI</span>
+          </a>
+          <a href="#/radiology-ai" class="font-label text-label-lg text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface py-gutter-xs transition-colors duration-state-change whitespace-nowrap">
+            <span data-design-text-token="label-lg">Radiology AI</span>
+          </a>
+          <a href="#/about" class="font-label text-label-lg text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface py-gutter-xs transition-colors duration-state-change whitespace-nowrap">
+            <span data-design-text-token="label-lg">About</span>
+          </a>
+        </nav>
+
+        <!-- Zone 3: Theme Toggle & Mobile Menu -->
+        <div class="flex items-center gap-gutter-sm">
+          <button id="theme-toggle" data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Toggle light or dark reading theme" class="inline-flex items-center justify-center w-10 h-10 rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/75 backdrop-blur-md text-light-on-surface-variant dark:text-dark-on-surface-variant transition-colors duration-state-change ease-state-change hover:text-light-primary dark:hover:text-dark-primary hover:border-lapis focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lapis">
+            <span id="theme-icon" class="material-symbols-outlined text-[20px] text-warning" aria-hidden="true">light_mode</span>
+          </button>
+
+          <button type="button" aria-label="Open navigation menu" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/75 text-light-on-surface-variant dark:text-dark-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">menu</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2px Reading Depth Progress Bar -->
+      <div class="w-full h-0.5 bg-light-outline-variant/40 dark:bg-dark-outline-variant/60">
+        <div id="reading-progress" class="h-full w-1/4 bg-light-primary dark:bg-dark-primary transition-all duration-state-change"></div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-container-max mx-auto w-full px-gutter-md sm:px-gutter-lg lg:px-gutter-xl py-gutter-xl flex-1 flex flex-col gap-section">
+
+      <!-- Editorial Masthead Strip -->
+      <div class="flex flex-wrap items-center justify-between gap-gutter-sm pb-gutter-md border-b border-light-outline/80 dark:border-dark-outline/80">
+        <span data-design-text-token="label-md" class="font-label text-label-md uppercase text-light-on-surface-variant dark:text-dark-on-surface-variant">
+          Independent Radiology News · Modality Analysis · Floor-Level Commentary
+        </span>
+        <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant dark:text-dark-on-surface-variant tabular-nums">
+          Edition 42 · Nov 2026
+        </span>
+      </div>
+
+      <!-- 4.1 Bento Hero Grid (12 Columns Asymmetric) -->
+      <section aria-label="Featured dispatch and editorial overview" class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-lg items-stretch">
+
+        <!-- Left 7 Columns: Lead Story -->
+        <article data-component-id="card-action" data-component-type="card" data-component-variant="action" class="lg:col-span-7 rounded-md border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/40 backdrop-blur-md overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="aspect-video w-full overflow-hidden border-b border-light-outline dark:border-dark-outline bg-dark-surface-deep">
+              <img src="https://lh3.googleusercontent.com/aida/ALJJyrBHrZ0wwMRQYKBF8nuMsQ47gFQio8QBGgd0mxNDl4fywUZUkCJj1NVYRlproJpwxzGvhNuq-YXh-sxD4DCBnWRX3QEVYBwM_tOkVfn26PKq-ItXPQ8Sr2_p7vemBpyAB8JlBKGklgEZq4u2-ItlpUrSpr0xTLx_TknXML2Fji5a29m2MeBzxyO1hOwa4CLrXl-X-vPT_tyxABj_Trsw-kgKful-tKOwQhpVRwXg2urgs8U9_Bx7KsV8xQ" alt="Photon-counting CT scanner gantry inside a dimly lit clinical radiology suite" class="w-full h-full object-cover transition-transform duration-image-zoom ease-image-zoom hover:scale-[1.02]">
+            </div>
+
+            <div class="p-gutter-lg sm:p-gutter-xl flex flex-col gap-gutter-md">
+              <div class="flex flex-wrap items-center gap-gutter-xs">
+                <span data-design-text-token="label-md" class="font-label text-label-md uppercase text-light-primary dark:text-dark-primary">
+                  Featured · CT &amp; Spectral · Nov 27, 2026 · 8 min read
+                </span>
+                <span class="font-label text-label-md uppercase text-success">· Unread</span>
+              </div>
+
+              <h1 data-design-text-token="headline-lg" class="font-headline text-headline-lg-mobile md:text-headline-lg text-light-on-surface dark:text-dark-on-surface text-balance hover:text-light-primary dark:hover:text-dark-primary transition-colors duration-state-change">
+                Photon-Counting CT Beyond the Vendor Brochure
+              </h1>
+
+              <p data-design-text-token="body-md" class="font-body text-body-md text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty max-w-[68ch]">
+                What two decades at the hospital CT console reveal about spectral stability, reconstruction queue latency, and real-world dose reduction during 2:00 AM trauma surges.
+              </p>
+            </div>
+          </div>
+
+          <footer class="px-gutter-lg sm:px-gutter-xl py-gutter-md border-t border-light-outline dark:border-dark-outline flex items-center justify-between gap-gutter-md">
+            <a href="#/post/photon-counting-ct-beyond-brochure" data-component-id="button-primary" data-component-type="button" data-component-variant="primary" class="inline-flex items-center justify-center gap-gutter-sm h-10 px-gutter-lg rounded bg-light-primary text-light-on-primary dark:bg-dark-primary dark:text-dark-on-primary font-label transition-colors duration-state-change ease-state-change hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lapis">
+              <span data-design-text-token="label-lg" class="text-label-lg">Read Article</span>
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_forward</span>
+            </a>
+
+            <button type="button" data-component-id="button-icon" data-component-type="button" data-component-variant="icon" aria-label="Bookmark lead article" class="bookmark-btn inline-flex items-center justify-center w-10 h-10 rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/40 text-light-on-surface-variant dark:text-dark-on-surface-variant transition-colors duration-state-change hover:text-light-primary dark:hover:text-dark-primary hover:border-lapis">
+              <span class="material-symbols-outlined text-[20px]" aria-hidden="true">bookmark_border</span>
+            </button>
+          </footer>
+        </article>
+
+        <!-- Right 5 Columns: Vertical Stack -->
+        <div class="lg:col-span-5 flex flex-col gap-gutter-lg justify-between">
+
+          <!-- Author Spotlight Card -->
+          <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="rounded-md border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/40 backdrop-blur-md p-gutter-lg flex flex-col gap-gutter-sm">
+            <header class="flex flex-col gap-gutter-xs">
+              <span data-design-text-token="label-md" class="font-label text-label-md uppercase text-light-primary dark:text-dark-primary">
+                Author Spotlight · Bryan Scroggs, RT(R)(CT)
+              </span>
+              <h2 data-design-text-token="headline-sm" class="font-headline text-headline-sm text-light-on-surface dark:text-dark-on-surface text-balance">
+                Floor-Level Clinical Reality, Unfiltered
+              </h2>
+            </header>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty">
+              Built from 20 years of hospital CT experience, this publication cuts through glossy OEM marketing to examine how imaging hardware, AI triage, and protocols actually behave on shift.
+            </p>
+            <div class="pt-gutter-xs">
+              <a href="#/post/why-radiology-unfiltered" class="inline-flex items-center gap-gutter-xs font-label text-label-lg text-light-primary dark:text-dark-primary hover:underline">
+                <span data-design-text-token="label-lg">Read the Introductory Essay</span>
+                <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_outward</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Modality Index Card -->
+          <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="rounded-md border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/40 backdrop-blur-md p-gutter-lg flex flex-col gap-gutter-md">
+            <header class="flex items-center justify-between">
+              <span data-design-text-token="label-md" class="font-label text-label-md uppercase text-light-primary dark:text-dark-primary">
+                Modality Index
+              </span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant dark:text-dark-on-surface-variant tabular-nums">
+                42 Dispatches
+              </span>
+            </header>
+
+            <div class="grid grid-cols-2 gap-gutter-sm">
+              <button type="button" data-modality-filter="CT &amp; Spectral" class="modality-tile rounded border border-light-outline dark:border-dark-outline bg-light-surface/60 dark:bg-dark-surface/60 px-gutter-md py-gutter-sm flex items-center justify-between transition-colors duration-state-change hover:border-lapis text-left">
+                <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface dark:text-dark-on-surface">CT &amp; Spectral</span>
+                <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-primary dark:text-dark-primary tabular-nums">14</span>
+              </button>
+              <button type="button" data-modality-filter="MRI" class="modality-tile rounded border border-light-outline dark:border-dark-outline bg-light-surface/60 dark:bg-dark-surface/60 px-gutter-md py-gutter-sm flex items-center justify-between transition-colors duration-state-change hover:border-lapis text-left">
+                <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface dark:text-dark-on-surface">MRI</span>
+                <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-primary dark:text-dark-primary tabular-nums">9</span>
+              </button>
+              <button type="button" data-modality-filter="Mammography" class="modality-tile rounded border border-light-outline dark:border-dark-outline bg-light-surface/60 dark:bg-dark-surface/60 px-gutter-md py-gutter-sm flex items-center justify-between transition-colors duration-state-change hover:border-lapis text-left">
+                <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface dark:text-dark-on-surface">Mammography</span>
+                <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-primary dark:text-dark-primary tabular-nums">5</span>
+              </button>
+              <button type="button" data-modality-filter="X-Ray" class="modality-tile rounded border border-light-outline dark:border-dark-outline bg-light-surface/60 dark:bg-dark-surface/60 px-gutter-md py-gutter-sm flex items-center justify-between transition-colors duration-state-change hover:border-lapis text-left">
+                <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface dark:text-dark-on-surface">X-Ray</span>
+                <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-primary dark:text-dark-primary tabular-nums">4</span>
+              </button>
+              <button type="button" data-modality-filter="Ultrasound" class="modality-tile rounded border border-light-outline dark:border-dark-outline bg-light-surface/60 dark:bg-dark-surface/60 px-gutter-md py-gutter-sm flex items-center justify-between transition-colors duration-state-change hover:border-lapis text-left">
+                <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface dark:text-dark-on-surface">Ultrasound</span>
+                <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-primary dark:text-dark-primary tabular-nums">4</span>
+              </button>
+              <button type="button" data-modality-filter="Radiology AI" class="modality-tile rounded border border-light-outline dark:border-dark-outline bg-light-surface/60 dark:bg-dark-surface/60 px-gutter-md py-gutter-sm flex items-center justify-between transition-colors duration-state-change hover:border-lapis text-left">
+                <span data-design-text-token="label-lg" class="font-label text-label-lg text-light-on-surface dark:text-dark-on-surface">Radiology AI</span>
+                <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-primary dark:text-dark-primary tabular-nums">6</span>
+              </button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 4.2 Discovery & Filter Toolbar -->
+      <section aria-label="Discovery and filter toolbar" class="flex flex-col gap-gutter-md border-t border-b border-light-outline dark:border-dark-outline py-gutter-lg">
+        <div class="flex flex-wrap items-center justify-between gap-gutter-md">
+          <!-- Interactive Search Input -->
+          <form data-component-id="searchbar-standard" data-component-type="searchbar" data-component-variant="standard" role="search" onsubmit="return false;" class="relative flex items-center flex-1 min-w-[260px] max-w-md rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/40 backdrop-blur-md px-gutter-md py-gutter-sm focus-within:border-lapis">
+            <span class="material-symbols-outlined text-[18px] text-light-on-surface-variant dark:text-dark-on-surface-variant mr-gutter-sm" aria-hidden="true">search</span>
+            <input id="article-search" type="search" aria-label="Filter articles by title or modality" placeholder="Filter dispatches, modalities, or protocols..." class="w-full bg-transparent border-0 p-0 text-body-sm text-light-on-surface dark:text-dark-on-surface placeholder:text-light-on-surface-variant dark:placeholder:text-dark-on-surface-variant focus:ring-0">
+            <kbd class="ml-gutter-sm font-mono text-mono-sm px-gutter-xs py-0.5 rounded-sm border border-light-outline dark:border-dark-outline text-light-on-surface-variant dark:text-dark-on-surface-variant tabular-nums">⌘K</kbd>
+          </form>
+
+          <!-- Saved Reading List & Sort Selector -->
+          <div class="flex items-center gap-gutter-sm">
+            <button type="button" data-component-id="button-secondary" data-component-type="button" data-component-variant="secondary" class="inline-flex items-center justify-center gap-gutter-sm px-gutter-md py-gutter-sm rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/40 backdrop-blur-md text-light-on-surface dark:text-dark-on-surface font-label transition-colors duration-state-change hover:border-lapis">
+              <span class="material-symbols-outlined text-[18px] text-light-primary dark:text-dark-primary" aria-hidden="true">bookmarks</span>
+              <span id="saved-count-label" data-design-text-token="label-lg" class="text-label-lg tabular-nums">Saved (3)</span>
+            </button>
+
+            <label for="sort-select" class="sr-only">Sort articles</label>
+            <select id="sort-select" class="rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/40 backdrop-blur-md px-gutter-md py-gutter-sm font-label text-label-lg text-light-on-surface dark:text-dark-on-surface focus:border-lapis focus:ring-0">
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="shortest">Shortest Read</option>
+              <option value="longest">Longest Read</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Modality Segmented Bar -->
+        <div data-component-id="tabs-horizontal" data-component-type="tabs" data-component-variant="horizontal" class="overflow-x-auto">
+          <div role="tablist" aria-label="Modality categories" class="inline-flex items-center gap-gutter-xs p-gutter-xs rounded border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/40 backdrop-blur-md">
+            <button role="tab" aria-selected="true" data-tab-modality="All" class="modality-tab px-gutter-md py-gutter-xs rounded-sm bg-light-primary text-light-on-primary dark:bg-dark-primary dark:text-dark-on-primary font-label whitespace-nowrap transition-colors duration-state-change">
+              <span data-design-text-token="label-lg" class="text-label-lg">All</span>
+            </button>
+            <button role="tab" aria-selected="false" data-tab-modality="CT &amp; Spectral" class="modality-tab px-gutter-md py-gutter-xs rounded-sm text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface font-label whitespace-nowrap transition-colors duration-state-change">
+              <span data-design-text-token="label-lg" class="text-label-lg">CT &amp; Spectral</span>
+            </button>
+            <button role="tab" aria-selected="false" data-tab-modality="MRI" class="modality-tab px-gutter-md py-gutter-xs rounded-sm text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface font-label whitespace-nowrap transition-colors duration-state-change">
+              <span data-design-text-token="label-lg" class="text-label-lg">MRI</span>
+            </button>
+            <button role="tab" aria-selected="false" data-tab-modality="Mammography" class="modality-tab px-gutter-md py-gutter-xs rounded-sm text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface font-label whitespace-nowrap transition-colors duration-state-change">
+              <span data-design-text-token="label-lg" class="text-label-lg">Mammography</span>
+            </button>
+            <button role="tab" aria-selected="false" data-tab-modality="Radiology AI" class="modality-tab px-gutter-md py-gutter-xs rounded-sm text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface font-label whitespace-nowrap transition-colors duration-state-change">
+              <span data-design-text-token="label-lg" class="text-label-lg">Radiology AI</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Clinical Dispatches Grid -->
+      <section aria-label="Recent clinical dispatches" class="flex flex-col gap-gutter-lg">
+        <div class="flex items-baseline justify-between">
+          <h2 data-design-text-token="headline-md" class="font-headline text-headline-md text-light-on-surface dark:text-dark-on-surface">
+            Recent Dispatches
+          </h2>
+          <span id="visible-count" data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant dark:text-dark-on-surface-variant tabular-nums">
+            Showing 2 of 2
+          </span>
+        </div>
+
+        <div id="dispatch-grid" class="grid grid-cols-1 md:grid-cols-2 gap-gutter-lg items-stretch">
+          <a href="#/post/3t-sar-constraints-implanted-leads" data-component-id="card-interactive" data-component-type="card" data-component-variant="interactive" data-modality="MRI" data-date="2026-11-21" data-minutes="6" class="dispatch-card rounded-md border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/35 backdrop-blur-md overflow-hidden flex flex-col transition-colors duration-state-change hover:border-lapis">
+            <div class="aspect-video w-full overflow-hidden border-b border-light-outline dark:border-dark-outline bg-dark-surface-deep">
+              <img src="https://lh3.googleusercontent.com/aida/ALJJyrAL6mIomFRu_EkHnVO027OwJxf8Kw6_5fAZT8LL_tnqq3POwN-FbvDKM0VBUOlAIwn5Al-4zMMDtrHx5izCiRIwZPzmZ8lob-8k_qaLm-nbhooHbTZKgs8oONpQv_zlJDU8OExOBUGC2JFxq3-aUI27C9LqfBBq9vplAj-TqB8-u_tDXzIQ_TnXCmhVGnjH35-8YcCc-Slz8cYR9ZX974K5GtKbB9ddGSl-Tl1-EpSFpeiTI-UIz8LpmQ" alt="3T MRI phased-array coil positioned on a clinical examination table" class="w-full h-full object-cover transition-transform duration-image-zoom ease-image-zoom hover:scale-[1.02]">
+            </div>
+            <div class="p-gutter-lg flex flex-col gap-gutter-sm flex-1">
+              <span data-design-text-token="label-md" class="font-label text-label-md uppercase text-light-primary dark:text-dark-primary">
+                MRI · Nov 21, 2026 · 6 min read · Read
+              </span>
+              <h3 data-design-text-token="headline-sm" class="font-headline text-headline-sm text-light-on-surface dark:text-dark-on-surface text-balance">
+                3T SAR Constraints in Conditional Implanted Leads
+              </h3>
+              <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty">
+                Practical sequence adjustments when manufacturer B1+rms limits collide with real-world patient habitus and urgent neurological indications.
+              </p>
+            </div>
+          </a>
+
+          <a href="#/post/ai-triage-worklist-fatigue" data-component-id="card-interactive" data-component-type="card" data-component-variant="interactive" data-modality="Radiology AI" data-date="2026-11-14" data-minutes="9" class="dispatch-card rounded-md border border-light-outline dark:border-dark-outline bg-light-surface-container/80 dark:bg-dark-surface-container/35 backdrop-blur-md overflow-hidden flex flex-col transition-colors duration-state-change hover:border-lapis">
+            <div class="aspect-video w-full overflow-hidden border-b border-light-outline dark:border-dark-outline bg-dark-surface-deep">
+              <img src="https://lh3.googleusercontent.com/aida/ALJJyrB2-NZleRAQfUYngwm6AyRgy5ZYH873t22mtKqrb-gVr2nN-2MDMZugDX43XKGXwRul95tuZi_WibksmPNXVrYCRwGE9j2tobb46MN6Tcs1RAeWtcX7OAzooA9CNehw_dKEN66vaIqaH3jMBAklVxf5nh22IGAWqN7iMyTrZi3LF6jFI0jI0-BTk15hBlbSOUVcCUT1VbUwjJpguZ77SeJE4Dt9PBkjfm2TQDF4LTPW_meWjrmXK3oRdITSh3XK44FtMC8" alt="Diagnostic PACS workstation inside a darkened radiology reading room" class="w-full h-full object-cover transition-transform duration-image-zoom ease-image-zoom hover:scale-[1.02]">
+            </div>
+            <div class="p-gutter-lg flex flex-col gap-gutter-sm flex-1">
+              <span data-design-text-token="label-md" class="font-label text-label-md uppercase text-light-primary dark:text-dark-primary">
+                Radiology AI · Nov 14, 2026 · 9 min read · Unread
+              </span>
+              <h3 data-design-text-token="headline-sm" class="font-headline text-headline-sm text-light-on-surface dark:text-dark-on-surface text-balance">
+                Why AI Triage Flags Still Stall at the PACS Worklist
+              </h3>
+              <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty">
+                Audit findings from six community hospital reading rooms comparing vendor sensitivity claims against false-positive alert fatigue.
+              </p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Transparent Footer allowing midnight #01060f gradient bleed-through -->
+    <footer class="bg-transparent border-t border-light-outline/80 dark:border-dark-outline/80 mt-auto">
+      <div class="max-w-container-max mx-auto px-gutter-md sm:px-gutter-lg lg:px-gutter-xl py-gutter-xl flex flex-col gap-gutter-md">
+        <div class="rounded-md border border-light-outline dark:border-dark-outline bg-light-surface-container/60 dark:bg-dark-surface-container/50 backdrop-blur-md p-gutter-lg">
+          <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant dark:text-dark-on-surface-variant text-pretty">
+            <strong class="text-light-on-surface dark:text-dark-on-surface">Medical Disclaimer:</strong> The content published on Radiology Unfiltered is provided strictly for informational and educational purposes only and represents an aggregation and commentary on news from various radiology headlines and industry sources. The author assumes no personal or professional responsibility or liability for any medical, diagnostic, or clinical applications resulting from the use or interpretation of information on this site. Nothing on this blog constitutes medical advice, clinical guidance, or a substitute for professional medical judgment, institutional protocols, or official manufacturer and regulatory documentation.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-gutter-md text-light-on-surface-variant dark:text-dark-on-surface-variant">
+          <span data-design-text-token="mono-sm" class="font-mono text-mono-sm">
+            Radiology Unfiltered · Bryan Scroggs
+          </span>
+          <span data-design-text-token="label-md" class="font-label text-label-md uppercase">
+            Primary Authorities: RSNA · ACR · FDA · Radiopaedia · NICE
+          </span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+      const tabs = document.querySelectorAll('.modality-tab');
+      const tiles = document.querySelectorAll('.modality-tile');
+      const grid = document.getElementById('dispatch-grid');
+      const cards = Array.from(document.querySelectorAll('.dispatch-card'));
+      const searchInput = document.getElementById('article-search');
+      const sortSelect = document.getElementById('sort-select');
+      const visibleCount = document.getElementById('visible-count');
+      const bookmarkBtns = document.querySelectorAll('.bookmark-btn');
+      const savedCountLabel = document.getElementById('saved-count-label');
+      let savedCount = 3;
+      let activeModality = 'All';
+
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function () {
+          const isDark = root.classList.toggle('dark');
+          themeIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
+        });
+      }
+
+      document.addEventListener('keydown', function (e) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          if (searchInput) searchInput.focus();
+        }
+      });
+
+      function applySort() {
+        if (!grid || !sortSelect) return;
+        const mode = sortSelect.value;
+        const sorted = cards.slice().sort(function (a, b) {
+          const da = a.getAttribute('data-date') || '';
+          const db = b.getAttribute('data-date') || '';
+          const ma = Number(a.getAttribute('data-minutes') || 0);
+          const mb = Number(b.getAttribute('data-minutes') || 0);
+          if (mode === 'oldest') return da.localeCompare(db);
+          if (mode === 'shortest') return ma - mb;
+          if (mode === 'longest') return mb - ma;
+          return db.localeCompare(da);
+        });
+        sorted.forEach(function (card) { grid.appendChild(card); });
+      }
+
+      function applyFilters() {
+        const query = (searchInput && searchInput.value ? searchInput.value : '').trim().toLowerCase();
+        let shown = 0;
+        cards.forEach(function (card) {
+          const mod = card.getAttribute('data-modality') || '';
+          const text = card.textContent.toLowerCase();
+          const modMatch = activeModality === 'All' || mod === activeModality;
+          const queryMatch = !query || text.includes(query);
+          const visible = modMatch && queryMatch;
+          card.classList.toggle('hidden', !visible);
+          if (visible) shown += 1;
+        });
+        if (visibleCount) {
+          visibleCount.textContent = 'Showing ' + shown + ' of ' + cards.length;
+        }
+      }
+
+      function selectModality(modality) {
+        activeModality = modality;
+        tabs.forEach(function (t) {
+          const isMatch = t.getAttribute('data-tab-modality') === modality;
+          t.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+          t.className = isMatch
+            ? 'modality-tab px-gutter-md py-gutter-xs rounded-sm bg-light-primary text-light-on-primary dark:bg-dark-primary dark:text-dark-on-primary font-label whitespace-nowrap transition-colors duration-state-change'
+            : 'modality-tab px-gutter-md py-gutter-xs rounded-sm text-light-on-surface-variant dark:text-dark-on-surface-variant hover:text-light-on-surface dark:hover:text-dark-on-surface font-label whitespace-nowrap transition-colors duration-state-change';
+        });
+        applyFilters();
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          selectModality(tab.getAttribute('data-tab-modality'));
+        });
+      });
+
+      tiles.forEach(function (tile) {
+        tile.addEventListener('click', function () {
+          selectModality(tile.getAttribute('data-modality-filter'));
+        });
+      });
+
+      if (searchInput) {
+        searchInput.addEventListener('input', applyFilters);
+      }
+
+      if (sortSelect) {
+        sortSelect.addEventListener('change', applySort);
+      }
+
+      bookmarkBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const icon = btn.querySelector('.material-symbols-outlined');
+          const saved = icon.textContent === 'bookmark';
+          icon.textContent = saved ? 'bookmark_border' : 'bookmark';
+          savedCount += saved ? -1 : 1;
+          if (savedCountLabel) {
+            savedCountLabel.textContent = 'Saved (' + savedCount + ')';
+          }
+        });
+      });
+    })();
+  </script>
+
+
+</body></html>
